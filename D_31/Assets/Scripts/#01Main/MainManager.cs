@@ -20,12 +20,11 @@ public class MainManager : MonoBehaviour
 
     }
     
-    // // 게임 시작 함수
-    // public void StartGame()
-    // {
-    //     // "시작" 씬을 로드
-    //     SceneManager.LoadScene("");
-    // }
+    // 게임 시작 함수
+    public void StartGame()
+    {
+        SceneManager.LoadScene("#02Intro");
+    }
 
     // 게임 종료 함수
     public void QuitGame()
