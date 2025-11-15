@@ -16,11 +16,13 @@ public class NewsManager : MonoBehaviour
 
     public TextMeshProUGUI title;
     public TextMeshProUGUI reporter;
-    public TextMeshProUGUI like;
-    public TextMeshProUGUI dislike;
+    public TextMeshProUGUI like1;
+    public TextMeshProUGUI dislike1;
+    public TextMeshProUGUI like2;       // 👈 추가함!
+    public TextMeshProUGUI dislike2;    // 👈 추가함!
     public TextMeshProUGUI content;
+
     // 댓글 UI 
-    
     public List<TextMeshProUGUI> comment1;
     public List<TextMeshProUGUI> comment2;
     public List<TextMeshProUGUI> comment3;
@@ -34,6 +36,10 @@ public class NewsManager : MonoBehaviour
     // public TextMeshProUGUI comment3;
     // public TextMeshProUGUI name4;
     // public TextMeshProUGUI comment4;
+
+    // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
+    public RectTransform contentRectTransform;
+    public RectTransform newsPanelRectTransform;
 
     private void Awake()
     {
@@ -72,8 +78,10 @@ public class NewsManager : MonoBehaviour
             reporter.text = sourceTitle.data.reporter;
         }
         title.text = sourceTitle.data.title;
-        like.text = "좋아요수 : " + sourceTitle.data.like.ToString();
-        dislike.text = "싫어요수 : " + sourceTitle.data.dislike.ToString();
+        like1.text = sourceTitle.data.like.ToString();
+        dislike1.text = sourceTitle.data.dislike.ToString();
+        like2.text = sourceTitle.data.like.ToString();          // 👈 추가함!
+        dislike2.text = sourceTitle.data.dislike.ToString();    // 👈 추가함!
         content.text = sourceTitle.data.content.Replace("<n>","\n");
 
         for (int i = 0; i<4;i++)
@@ -81,8 +89,17 @@ public class NewsManager : MonoBehaviour
             comments[i][0].text = sourceTitle.data.comments[i][0];
             comments[i][1].text = sourceTitle.data.comments[i][1];
         }
-        
 
+        // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
+        if (newsPanelRectTransform != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
+        }
+
+        if (contentRectTransform != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
+        }
 
         // 패널 켜기
         // NewsPanel.SetActive(true);
