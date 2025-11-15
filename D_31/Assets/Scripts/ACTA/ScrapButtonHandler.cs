@@ -14,6 +14,8 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
     [SerializeField]
     private Sprite after_scrap_img; // 클릭 후 스크랩버튼 이미지
 
+    public PaperManager paperManager;
+
     private Image buttonImage; // 버튼의 Image 컴포넌트
 
     void Awake()
@@ -28,7 +30,7 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
         
         classId = cId;
         clicked = isScrapped;
-        Debug.Log($"스크랩버튼 clicked : {clicked}");
+        Debug.Log($"GetSourceTitle 실행됨 : {clicked}");
 
         if (clicked == 0) {
             buttonImage.sprite = before_scrap_img;
@@ -40,6 +42,12 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
     
     public void OnPointerClick(PointerEventData eventData)
     {
+
         buttonImage.sprite = after_scrap_img;
+        // if (paperManager != null)
+        // {
+            // paperManager.ScrapButtonClicked();
+
+        // }
     }
 }

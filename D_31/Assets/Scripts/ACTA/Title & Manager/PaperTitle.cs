@@ -5,11 +5,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-// 제목 버튼 컴포넌트로 붙여서, 해당 제목의 데이터를 저장할거임. 
-
-public class NewsTitle : MonoBehaviour, IPointerClickHandler
+public class PaperTitle : MonoBehaviour, IPointerClickHandler
 {
-    public NewsData data; // 해당 제목에 해당하는 데이터
+    public PaperData data; // 해당 제목에 해당하는 데이터
     private TextMeshProUGUI titleText; // 제목 텍스트
     // public NewsManager newsManager;
 
@@ -27,7 +25,7 @@ public class NewsTitle : MonoBehaviour, IPointerClickHandler
             Debug.LogError("자식 오브젝트에서 TextMeshProUGUI 컴포넌트를 찾을 수 없습니다.", this);
             return;
         }
-        Debug.Log($"제목 텍스트 텍스트 찾음 : {titleText.text}");
+        // Debug.Log($"제목 텍스트 텍스트 찾음 : {titleText.text}");
         
     }
     void Update()
@@ -46,6 +44,7 @@ public class NewsTitle : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
 
+        Debug.Log("Paper Title OnPointerClick 실행됨?  1");
         // 댓글도 불러오기 (프리팹 생성 & 데이터 참조해서 닉네임/내용 채워넣기)
         // data.comments
         if (post_panel == null) 
@@ -54,8 +53,8 @@ public class NewsTitle : MonoBehaviour, IPointerClickHandler
         }
         else 
         {
-            NewsManager newsManager = post_panel.GetComponent<NewsManager>();
-            if (newsManager == null) 
+            PaperManager paperManager = post_panel.GetComponent<PaperManager>();
+            if (paperManager == null) 
             {
                 Debug.Log("뉴스 메니저 못찾음");
             }
@@ -64,13 +63,15 @@ public class NewsTitle : MonoBehaviour, IPointerClickHandler
 
                 // 패널 켜기
                 post_panel.SetActive(true);
-
+                // Debug.Log("???????????????????????????????");
                 // 패널 UI 채우기
-                newsManager.GetSourceTitle(this);
+                
+                paperManager.GetSourceTitle(this);
+                // Debug.Log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                 
                 // 스크랩 버튼 설정
-                ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
-                ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId);
+                // ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
+                // ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId);
 
                 
             }
@@ -82,6 +83,4 @@ public class NewsTitle : MonoBehaviour, IPointerClickHandler
         
 
     }
-
-
 }

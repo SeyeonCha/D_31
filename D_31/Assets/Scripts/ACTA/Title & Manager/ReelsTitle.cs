@@ -4,17 +4,20 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class CafeTitle : MonoBehaviour, IPointerClickHandler
-{
-    public CafeData data; // 해당 제목에 해당하는 데이터
-    private TextMeshProUGUI titleText; // 제목 텍스트
 
-    public GameObject post_panel;
-    public GameObject ScrapButton; 
+public class ReelsTitle : MonoBehaviour, IPointerClickHandler
+{
+    public ReelsData data; // 해당 제목에 해당하는 데이터
+    private TextMeshProUGUI titleText; // 제목 텍스트
+    // public NewsManager newsManager;
+
+    public GameObject post_panel; // 릴스 패널
+    public GameObject ScrapButton; // 릴스 스크랩 버튼
+
 
     void Start()
     {
-        titleText = GetComponentInChildren<TextMeshProUGUI>(); // 제목 텍스트 찾기
+        titleText = GetComponent<TextMeshProUGUI>(); // 제목 텍스트 찾기
 
         // 자식 텍스트 찾았는지 확인
         if (titleText == null)
@@ -22,7 +25,7 @@ public class CafeTitle : MonoBehaviour, IPointerClickHandler
             Debug.LogError("자식 오브젝트에서 TextMeshProUGUI 컴포넌트를 찾을 수 없습니다.", this);
             return;
         }
-        Debug.Log($"자식오브젝트 텍스트 찾음 : {titleText.text}");
+        // Debug.Log($"제목 텍스트 텍스트 찾음 : {titleText.text}");
         
     }
     void Update()
@@ -40,25 +43,29 @@ public class CafeTitle : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
+
+        // 댓글도 불러오기 (프리팹 생성 & 데이터 참조해서 닉네임/내용 채워넣기)
+        // data.comments
         if (post_panel == null) 
         {
-            Debug.Log("왜 카페 패널을 못찾지?");
+            Debug.Log("왜 뉴스 패널을 못찾지?");
         }
         else 
         {
-            CafeManager cafeManager = post_panel.GetComponent<CafeManager>();
-            if (cafeManager == null) 
+            ReelsManager reelsManager = post_panel.GetComponent<ReelsManager>();
+            if (reelsManager == null) 
             {
                 Debug.Log("뉴스 메니저 못찾음");
             }
             else {
-                Debug.Log("뉴스 메니저 찾음");
+                Debug.Log("뉴스 매니저 찾음");
 
                 // 패널 켜기
                 post_panel.SetActive(true);
-                // 패널 UI 채우기
-                cafeManager.GetSourceTitle(this);
 
+                // 패널 UI 채우기
+                reelsManager.GetSourceTitle(this);
+                
                 // 스크랩 버튼 설정
                 ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
                 ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId);
