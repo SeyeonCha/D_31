@@ -9,7 +9,13 @@ using System.Text.RegularExpressions;
 public class ReelsDataLoader : MonoBehaviour
 {
     [SerializeField] 
-    private TextAsset titleDataFile; // csv 파일 
+    public TextAsset titleDataFile31; // 31일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile30; // 30일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile14; // 14일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<ReelsData>> ReelsDataMap;
     public Dictionary<int, List<ReelsData>> Data
@@ -35,7 +41,7 @@ public class ReelsDataLoader : MonoBehaviour
         return result;
     }
     
-    public void LoadCsvData()
+    public void LoadCsvData(TextAsset titleDataFile)
     {
         if (titleDataFile == null)
         {
@@ -73,9 +79,13 @@ public class ReelsDataLoader : MonoBehaviour
 
                 for (int j = 7;j<columns.Length; j+=3)
                 {
-                    List<string> commentPair = new List<string> { columns[j], columns[j+1], columns[j+2] }; // 작성자, 댓글 pair
+                    if (j+2<columns.Length)
+                    {
+                        List<string> commentPair = new List<string> { columns[j], columns[j+1], columns[j+2] }; // 작성자, 댓글 pair
                     
-                    comments.Add(commentPair);
+                        comments.Add(commentPair);
+                    }
+                    
                 }
 
                 ReelsData data = new ReelsData(uniqueId, classId, title, youtuber, subs, views, like, comments); // 게시물 하나짜리 데이터
@@ -89,7 +99,7 @@ public class ReelsDataLoader : MonoBehaviour
         }
 
 
-        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {rows.Length - 1}개 행을 로드했습니다.\n");
+        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {ReelsDataMap.Sum(kvp => kvp.Value.Count)}개 행을 로드했습니다.\n");
         Debug.Log($"{ReelsDataMap[1][0].title}");
 
     }

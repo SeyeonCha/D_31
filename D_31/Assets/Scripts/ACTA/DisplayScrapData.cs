@@ -20,7 +20,7 @@ public class DisplayScrapData : MonoBehaviour
     public void ScrapCounter(int classId) 
     {
         // 플랫폼별 매니저의 ScrapButtonClicked 마지막에서 호출됨
-        
+        Debug.Log("ScrapCounter 실행됨");
         // 해당 클래스의 스크랩 수 + 1
         string countKey = COUNT_KEY_PREFIX + classId + "_Count";
         int currentCount = PlayerPrefs.GetInt(countKey,0);

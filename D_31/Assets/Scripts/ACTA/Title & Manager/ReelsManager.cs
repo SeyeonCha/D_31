@@ -8,7 +8,8 @@ using TMPro;
 
 public class ReelsManager : MonoBehaviour
 {
-    // public GameObject ReelsPanel; // 뉴스 제목 클릭시 켜질 패널
+    [SerializeField]
+    private DisplayScrapData displayer;
 
     private ReelsTitle sourceTitle;
 
@@ -113,7 +114,7 @@ public class ReelsManager : MonoBehaviour
         sourceTitle.data.isScrapped = 1;
         Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
 
-        GameManager.Instance.displayer.ScrapCounter(classId);
+        displayer.ScrapCounter(classId);
 
     }
 }

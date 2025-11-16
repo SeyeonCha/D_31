@@ -9,7 +9,13 @@ using System.Text.RegularExpressions;
 public class PaperDataLoader : MonoBehaviour
 {
     [SerializeField] 
-    private TextAsset titleDataFile; // csv 파일 
+    public TextAsset titleDataFile31; // 31일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile30; // 30일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile14; // 14일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<PaperData>> PaperDataMap;
     public Dictionary<int, List<PaperData>> Data
@@ -35,7 +41,7 @@ public class PaperDataLoader : MonoBehaviour
         return result;
     }
     
-    public void LoadCsvData()
+    public void LoadCsvData(TextAsset titleDataFile)
     {
         if (titleDataFile == null)
         {
@@ -78,8 +84,8 @@ public class PaperDataLoader : MonoBehaviour
             }
         }
 
-        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {rows.Length - 1}개 행을 로드했습니다.\n");
-        // Debug.Log($"{PaperDataMap[1][0].title}\n{PaperDataMap[1][0].AI_T}");
+        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {PaperDataMap.Sum(kvp => kvp.Value.Count)}개 행을 로드했습니다.\n");
+        Debug.Log($"{PaperDataMap[1][0].title}");
 
     }
 }

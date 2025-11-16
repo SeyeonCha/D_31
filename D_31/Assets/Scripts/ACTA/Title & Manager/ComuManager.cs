@@ -7,6 +7,9 @@ using TMPro;
 
 public class ComuManager : MonoBehaviour
 {
+    [SerializeField]
+    private DisplayScrapData displayer;
+    
     private ComuTitle sourceTitle;
 
     private int classId;
@@ -90,7 +93,7 @@ public class ComuManager : MonoBehaviour
         sourceTitle.data.isScrapped = 1;
         Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
 
-        GameManager.Instance.displayer.ScrapCounter(classId);
+        displayer.ScrapCounter(classId);
 
     }
 }

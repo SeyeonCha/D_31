@@ -5,11 +5,17 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 using System.Text.RegularExpressions;
-
+using System.Linq;
 public class ComuDataLoader : MonoBehaviour
 {
     [SerializeField] 
-    private TextAsset titleDataFile; // csv 파일 
+    public TextAsset titleDataFile31; // 31일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile30; // 30일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile14; // 14일 csv 파일 
+    // [SerializeField] 
+    // public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<ComuData>> ComuDataMap;
     public Dictionary<int, List<ComuData>> Data
@@ -30,7 +36,7 @@ public class ComuDataLoader : MonoBehaviour
         return result;
     }
 
-    public void LoadCsvData()
+    public void LoadCsvData(TextAsset titleDataFile)
     {
         if (titleDataFile == null)
         {
@@ -91,7 +97,7 @@ public class ComuDataLoader : MonoBehaviour
             }
         }
 
-        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {ComuDataMap.Values.Sum(list => list.Count)}개 행을 로드했습니다.\n");
+        Debug.Log($"CSV 데이터 맵 구축 완료. 총 {ComuDataMap.Sum(kvp => kvp.Value.Count)}개 행을 로드했습니다.\n");
         // Debug.Log($"{ComuDataMap[1][0].title}\n{ComuDataMap[1][0].content}");
 
     }

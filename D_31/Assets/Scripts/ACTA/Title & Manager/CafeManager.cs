@@ -7,7 +7,8 @@ using TMPro;
 
 public class CafeManager : MonoBehaviour
 {
-    // public GameObject NewsPanel; // 뉴스 제목 클릭시 켜질 패널
+    [SerializeField]
+    private DisplayScrapData displayer;
 
     private CafeTitle sourceTitle;
 
@@ -77,7 +78,7 @@ public class CafeManager : MonoBehaviour
         sourceTitle.data.isScrapped = 1;
         Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
 
-        GameManager.Instance.displayer.ScrapCounter(classId);
+        displayer.ScrapCounter(classId);
 
     }
 }

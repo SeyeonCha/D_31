@@ -7,7 +7,8 @@ using TMPro;
 
 public class NewsManager : MonoBehaviour
 {
-    // public GameObject NewsPanel; // 뉴스 제목 클릭시 켜질 패널
+    [SerializeField]
+    private DisplayScrapData displayer;
 
     private NewsTitle sourceTitle;
 
@@ -112,7 +113,7 @@ public class NewsManager : MonoBehaviour
         sourceTitle.data.isScrapped = 1;
         Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
 
-        GameManager.Instance.displayer.ScrapCounter(classId);
+        displayer.ScrapCounter(classId);
 
     }
 }
