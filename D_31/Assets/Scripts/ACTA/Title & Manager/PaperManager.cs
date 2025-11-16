@@ -41,7 +41,7 @@ public class PaperManager : MonoBehaviour
         author.text = sourceTitle.data.author;
         title.text = sourceTitle.data.title;
         year.text = sourceTitle.data.year.ToString();
-        AI_T.text = "[AI 요약봇]이 논문을 요약했습니다. " + sourceTitle.data.AI_T.Replace("<n>","\n");
+        AI_T.text = "[AI 요약봇]이 논문을 요약했습니다. \n" + sourceTitle.data.AI_T.Replace("<n>","\n");
         // AI_F.text = sourceTitle.data.AI_F.Replace("<n>","\n");
 
         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
@@ -78,7 +78,9 @@ public class PaperManager : MonoBehaviour
     public void ScrapButtonClicked()
     {
         sourceTitle.data.isScrapped = 1;
-        Debug.Log($"sourceTitle.data.isScrpped : {sourceTitle.data.isScrapped}");
+        Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
+
+        GameManager.Instance.displayer.ScrapCounter(classId);
 
     }
 }

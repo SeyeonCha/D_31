@@ -15,9 +15,15 @@ public class TitleButtonUpdator : MonoBehaviour
     public List<CafeTitle> Cafe_Titles;
     private static List<int> Cafe_idxs = new List<int> {0, 0, 0, 0, 0};
 
+    // 카페 페이지 안의 제목 (7개)
+    public List<CafeTitle> Cafe_List_Titles;
+
     // 커뮤 Title
     public List<ComuTitle> Comu_Titles;
     private static List<int> Comu_idxs = new List<int> {0, 0, 0, 0, 0};
+
+    // 커뮤 페이지 안의 Title (16개)
+    public List<ComuTitle> Comu_List_Titles;
 
     // 논문 Title
     public List<PaperTitle> Paper_Titles;
@@ -100,6 +106,15 @@ public class TitleButtonUpdator : MonoBehaviour
             targetClass = Cafe_curationData[i];
             targetIndex = Cafe_idxs[targetClass]++;
             Cafe_Titles[i].data = CafeDataMap[targetClass][targetIndex];
+            Cafe_List_Titles[i].data = CafeDataMap[targetClass][targetIndex]; // 3개까지 같이
+        }
+        // Cafe 페이지 안 제목들
+        for (int i = 3; i < Cafe_List_Titles.Count;i++)
+        {
+            targetClass = Cafe_curationData[i];
+            targetIndex = Cafe_idxs[targetClass]++;
+            Cafe_List_Titles[i].data = CafeDataMap[targetClass][targetIndex];
+
         }
 
         // 커뮤니티 제목 show
@@ -110,7 +125,9 @@ public class TitleButtonUpdator : MonoBehaviour
             targetClass = Comu_curationData[i];
             targetIndex = Comu_idxs[targetClass]++;
             Comu_Titles[i].data = ComuDataMap[targetClass][targetIndex];
+            Comu_List_Titles[i].data = ComuDataMap[targetClass][targetIndex]; // 커뮤 페이지 안 제목들 show
         }
+        
 
         // 논문 제목 show
         Paper_curationData = GameManager.Instance.curation_data[4];

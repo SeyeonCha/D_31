@@ -10,50 +10,51 @@ public class CafeManager : MonoBehaviour
     // public GameObject NewsPanel; // 뉴스 제목 클릭시 켜질 패널
 
     private CafeTitle sourceTitle;
-    private CafeData sourceData;
 
     private int classId;
     private int clicked;
-    private List<List<string>> comments;
 
-    private TextMeshProUGUI writer;
-    private TextMeshProUGUI views;
-    private TextMeshProUGUI like;
-    private TextMeshProUGUI content;
+    public TextMeshProUGUI title;
+    public TextMeshProUGUI writer;
+    // public TextMeshProUGUI views;
+    public TextMeshProUGUI like;
+    public TextMeshProUGUI content;
+
+    // 댓글 UI 
+    public List<TextMeshProUGUI> comment1;
+    public List<TextMeshProUGUI> comment2;
+    public List<TextMeshProUGUI> comment3;
+
+    private List<List<TextMeshProUGUI>> comments;
 
 
 
-    void Start()
+    void Awake()
     {
-        // 해당 패널의 자식 오브젝트 UI 텍스트 가져오기
-        writer = transform.Find("writer").GetComponent<TextMeshProUGUI>();
-        views = transform.Find("views").GetComponent<TextMeshProUGUI>();
-        like = transform.Find("like").GetComponent<TextMeshProUGUI>();
-        content = transform.Find("content").GetComponent<TextMeshProUGUI>();
-
-        if (writer == null || views == null || like == null || content == null) {
-            Debug.Log("패널의 자식 UI들을 못찾음..");
-        }
-        else {
-            Debug.Log("패널의 자식 UI들을  모두 찾음!");
-        }
+        comments = new List<List<TextMeshProUGUI>>() {comment1, comment2, comment3};
 
     }
 
-    public void GetSourceTitle(CafeTitle title)
+    public void GetSourceTitle(CafeTitle stitle)
     {
         // 데이터의 정보 받아오기
-        sourceTitle = title;
-        // sourceData = sourceTitle.data;
+        sourceTitle = stitle;
+
         classId = sourceTitle.data.classId;
         clicked = sourceTitle.data.isScrapped;
 
         // 패널 UI 텍스트들 채우기
+        title.text = sourceTitle.data.title;
         writer.text = sourceTitle.data.writer;
-        views.text = "조회수 : " + sourceTitle.data.views.ToString();
-        like.text = "좋아요수 : " + sourceTitle.data.like.ToString();
+        // views.text = sourceTitle.data.views.ToString();
+        like.text = sourceTitle.data.like.ToString();
         content.text = sourceTitle.data.content.Replace("<n>","\n");
         
+        for (int i = 0; i<3;i++)
+        {
+            comments[i][0].text = sourceTitle.data.comments[i][0];
+            comments[i][1].text = sourceTitle.data.comments[i][1];
+        }
 
 
         // 패널 켜기
@@ -64,6 +65,9 @@ public class CafeManager : MonoBehaviour
     public void ScrapButtonClicked()
     {
         sourceTitle.data.isScrapped = 1;
+        Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
+
+        GameManager.Instance.displayer.ScrapCounter(classId);
 
     }
 }

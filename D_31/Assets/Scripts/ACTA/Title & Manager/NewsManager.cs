@@ -41,6 +41,7 @@ public class NewsManager : MonoBehaviour
     public RectTransform contentRectTransform;
     public RectTransform newsPanelRectTransform;
 
+
     private void Awake()
     {
         comments = new List<List<TextMeshProUGUI>>() {comment1, comment2, comment3, comment4};
@@ -109,7 +110,9 @@ public class NewsManager : MonoBehaviour
     public void ScrapButtonClicked()
     {
         sourceTitle.data.isScrapped = 1;
-        Debug.Log($"sourceTitle.data.isScrpped : {sourceTitle.data.isScrapped}");
+        Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
+
+        GameManager.Instance.displayer.ScrapCounter(classId);
 
     }
 }

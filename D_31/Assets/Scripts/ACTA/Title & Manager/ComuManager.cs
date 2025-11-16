@@ -88,7 +88,9 @@ public class ComuManager : MonoBehaviour
     public void ScrapButtonClicked()
     {
         sourceTitle.data.isScrapped = 1;
-        Debug.Log($"sourceTitle.data.isScrpped : {sourceTitle.data.isScrapped}");
+        Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
+
+        GameManager.Instance.displayer.ScrapCounter(classId);
 
     }
 }

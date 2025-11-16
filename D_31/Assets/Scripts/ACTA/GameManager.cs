@@ -11,6 +11,10 @@ using System.Text.RegularExpressions;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance {get; private set;}
+    public GameObject MissionSuccessPopup; // 미션성공 팝업창
+
+    public bool IsQuestCompleted = false; // 퀘스트 달성 여부
+    public int DayEnded = 0; // 데이 수 계산. 
 
     // CSV 데이터 로드 파트
     [SerializeField]
@@ -21,11 +25,19 @@ public class GameManager : MonoBehaviour
     public ReelsDataLoader reelsDataLoader;
     // **나머지 플랫폼의 데이터 로더도 정의. 
 
+    // 제목 업데이터
     [SerializeField]
     public TitleButtonUpdator TitleUpdator;
 
+    // 디스플레이어
+    public DisplayScrapData displayer; 
+    private TextMeshProUGUI displayTextMesh;
+
     // 큐레이션 관련
     public List<List<int>> curation_data;
+
+    private const int NUM_CLASSES = 5;
+    private const string COUNT_KEY_PREFIX = "Class_";
 
     private void Awake()
     {
@@ -74,8 +86,45 @@ public class GameManager : MonoBehaviour
 
         // 제목 띄우기
         // 게임매니저 어웨이크가 개처 안돌아가는 문제
+        ResetCount();
+
+    }
+    private void Update()
+    {
+        if (PlayerPrefs.GetInt("Total_Count",0) >= 9) // 스크랩 수 충족시
+        {
+            Debug.Log("퀘스트 달성!! 다음날 게시물 계산 실행");
+            // 퀘스트 상태 : 달성!
+            IsQuestCompleted = true;
+            // EndDayButton.SetActive(true);
+
+            // 퀘스트 완료하자마자 다음날 게시물 데이터 저장. 
+            PlayerPrefs.Save();
+            // curation_data = curator.CurationCalculator();
+
+            MissionSuccessPopup.SetActive(true);
 
 
+            // ResetCount();
+            // PlayerPrefs.Save(); 
+        }
+    }
+    public void ToNextDay() // end day 버튼 클릭시 호출되는 함수
+    {
+        DayEnded +=1 ;
+        MissionSuccessPopup.SetActive(false);
+        ResetCount();
+        // SceneManager.LoadScene("Day30News");
+    }
+    public void ResetCount() // PlayerPrefs 값 0으로 초기화 함수
+    {
+        Debug.Log("ResetCount 실행");
+        for (int i=0;i<NUM_CLASSES;i++)
+            {
+                PlayerPrefs.SetInt(COUNT_KEY_PREFIX + i + "_Count",0); // 추천 시스템 스크랩 수 클래스별 카운트
+            }
+        PlayerPrefs.SetInt("Total_Count",0);
+        PlayerPrefs.Save();
     }
     
 
