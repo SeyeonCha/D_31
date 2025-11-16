@@ -1509,7 +1509,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Paper (4)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6868788238597143864, guid: b01fe585fd80e4b99a8cff7cc024f0b8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1865,7 +1866,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Paper (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6868788238597143864, guid: b01fe585fd80e4b99a8cff7cc024f0b8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2770,7 +2772,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Paper (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6868788238597143864, guid: b01fe585fd80e4b99a8cff7cc024f0b8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4873,7 +4876,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Paper (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6868788238597143864, guid: b01fe585fd80e4b99a8cff7cc024f0b8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

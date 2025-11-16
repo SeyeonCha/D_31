@@ -70,8 +70,8 @@ public class PaperTitle : MonoBehaviour, IPointerClickHandler
                 // Debug.Log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                 
                 // 스크랩 버튼 설정
-                // ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
-                // ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId);
+                ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
+                ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId);
 
                 
             }

@@ -33,8 +33,8 @@ public class ComuManager : MonoBehaviour
     // public TextMeshProUGUI comment4;
 
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-    public RectTransform contentRectTransform;
-    public RectTransform newsPanelRectTransform;
+    // public RectTransform contentRectTransform;
+    // public RectTransform newsPanelRectTransform;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class ComuManager : MonoBehaviour
             writer.text = sourceTitle.data.writer;
         }
         title.text = sourceTitle.data.title;
-        like.text = sourceTitle.data.like.ToString();
+        like.text = "공감 " + sourceTitle.data.like.ToString();
         content.text = sourceTitle.data.content.Replace("<n>","\n");
 
         // for (int i = 0; i<4;i++)
@@ -70,15 +70,15 @@ public class ComuManager : MonoBehaviour
         // }
 
         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-        if (newsPanelRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
-        }
+        // if (newsPanelRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
+        // }
 
-        if (contentRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
-        }
+        // if (contentRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
+        // }
 
         // 패널 켜기
         // NewsPanel.SetActive(true);

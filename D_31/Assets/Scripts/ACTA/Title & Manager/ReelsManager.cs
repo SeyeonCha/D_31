@@ -39,8 +39,8 @@ public class ReelsManager : MonoBehaviour
     // public TextMeshProUGUI comment4;
 
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-    public RectTransform contentRectTransform;
-    public RectTransform newsPanelRectTransform;
+    // public RectTransform contentRectTransform;
+    // public RectTransform newsPanelRectTransform;
 
     private void Awake()
     {
@@ -76,12 +76,12 @@ public class ReelsManager : MonoBehaviour
         }
         else{
             Debug.Log($"리포터 데이터 있긴함 : {sourceTitle.data.youtuber}");
-            youtuber.text = sourceTitle.data.youtuber;
+            youtuber.text = "@" + sourceTitle.data.youtuber;
         }
         title1.text = sourceTitle.data.title;
         title2.text = sourceTitle.data.title;
-        subs.text = sourceTitle.data.subs.ToString();
-        views.text = sourceTitle.data.views.ToString();
+        subs.text = "구독자 " + sourceTitle.data.subs.ToString();
+        views.text = "조회수 " + sourceTitle.data.views.ToString() + "회";
         like.text = sourceTitle.data.like.ToString(); 
 
         // 댓글 UI 채우기
@@ -93,15 +93,15 @@ public class ReelsManager : MonoBehaviour
         // }
 
         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-        if (newsPanelRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
-        }
+        // if (newsPanelRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
+        // }
 
-        if (contentRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
-        }
+        // if (contentRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
+        // }
 
         // 패널 켜기
         // NewsPanel.SetActive(true);

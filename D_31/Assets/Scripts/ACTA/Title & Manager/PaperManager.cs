@@ -19,8 +19,8 @@ public class PaperManager : MonoBehaviour
     public TextMeshProUGUI AI_F; 
 
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-    public RectTransform contentRectTransform;
-    public RectTransform newsPanelRectTransform;
+    // public RectTransform contentRectTransform;
+    // public RectTransform newsPanelRectTransform;
 
 
     public void GetSourceTitle(PaperTitle stitle)
@@ -45,15 +45,15 @@ public class PaperManager : MonoBehaviour
         // AI_F.text = sourceTitle.data.AI_F.Replace("<n>","\n");
 
         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-        if (newsPanelRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
-        }
+        // if (newsPanelRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
+        // }
 
-        if (contentRectTransform != null)
-        {
-            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
-        }
+        // if (contentRectTransform != null)
+        // {
+        //     LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
+        // }
 
         // 패널 켜기
         // NewsPanel.SetActive(true);
@@ -73,4 +73,12 @@ public class PaperManager : MonoBehaviour
     //     }
 
     // }
+
+    // 스크랩 버튼이 눌리면 불러와질 함수 정의
+    public void ScrapButtonClicked()
+    {
+        sourceTitle.data.isScrapped = 1;
+        Debug.Log($"sourceTitle.data.isScrpped : {sourceTitle.data.isScrapped}");
+
+    }
 }
