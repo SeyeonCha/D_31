@@ -470,6 +470,7 @@ MonoBehaviour:
   comment3:
   - {fileID: 292121051}
   - {fileID: 218733826}
+  cafePanelRectTransform: {fileID: 163415163}
 --- !u!1 &167100639
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,7 +1462,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -3057,11 +3058,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 781284347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -769.5901}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
   m_SizeDelta: {x: 99, y: 57}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1065115687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5286,7 +5287,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1673135975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10069,7 +10070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4679872876346333970, guid: 540c9b769bfc14996a570c52312b1da0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4985844532765045918, guid: 540c9b769bfc14996a570c52312b1da0, type: 3}
       propertyPath: m_AnchorMax.y
@@ -10297,7 +10298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9036917965805371840, guid: 540c9b769bfc14996a570c52312b1da0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9101753131857160230, guid: 540c9b769bfc14996a570c52312b1da0, type: 3}
       propertyPath: m_AnchorMax.y

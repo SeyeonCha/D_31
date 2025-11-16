@@ -28,6 +28,10 @@ public class CafeManager : MonoBehaviour
     private List<List<TextMeshProUGUI>> comments;
 
 
+    // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
+    public RectTransform cafePanelRectTransform;
+
+
 
     void Awake()
     {
@@ -56,6 +60,12 @@ public class CafeManager : MonoBehaviour
             comments[i][1].text = sourceTitle.data.comments[i][1];
         }
 
+
+        // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
+        if (cafePanelRectTransform != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(cafePanelRectTransform);
+        }
 
         // 패널 켜기
         // NewsPanel.SetActive(true);
