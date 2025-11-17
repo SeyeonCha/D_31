@@ -65,7 +65,8 @@ public class ReelsDataLoader : MonoBehaviour
 
             if (columns.Length >= 3 &&
                 int.TryParse(columns[0], out int uniqueId) &&
-                int.TryParse(columns[1], out int classId))
+                int.TryParse(columns[1], out int classId) &&
+                int.TryParse(columns[7], out int c_num))
             {
                 string title = columns[2]; // 따옴표 자동 제거됨
                 string youtuber = columns[3];
@@ -75,20 +76,20 @@ public class ReelsDataLoader : MonoBehaviour
 
                 // 댓글 데이터 가져오기
 
-                List<List<string>> comments = new List<List<string>>(); // <name, comments>를 원소로 하는 List
+                List<ReelsCommentData> comments = new List<ReelsCommentData>(); // <name, comments, like>를 원소로 하는 List
 
-                for (int j = 7;j<columns.Length; j+=3)
+                for (int j = 0;j<c_num; j++) // 댓글 개수만큼 반복
                 {
-                    if (j+2<columns.Length)
+                    int name_idx = 8 + j * 3; // 8-> 11-> 14
+                    if (name_idx+2 < columns.Length)
                     {
-                        List<string> commentPair = new List<string> { columns[j], columns[j+1], columns[j+2] }; // 작성자, 댓글 pair
-                    
-                        comments.Add(commentPair);
+                        comments.Add(new ReelsCommentData(columns[name_idx], columns[name_idx+1], columns[name_idx+2]));
+                        Debug.Log($"릴스 댓글 데이터 : {columns[name_idx]}, {columns[name_idx+1]}, {columns[name_idx+2]}");
                     }
                     
                 }
 
-                ReelsData data = new ReelsData(uniqueId, classId, title, youtuber, subs, views, like, comments); // 게시물 하나짜리 데이터
+                ReelsData data = new ReelsData(uniqueId, classId, title, youtuber, subs, views, like, c_num, comments); // 게시물 하나짜리 데이터
 
                 if (!ReelsDataMap.ContainsKey(classId)) // 클래스 별로 나누어서 저장
                     ReelsDataMap[classId] = new List<ReelsData>();

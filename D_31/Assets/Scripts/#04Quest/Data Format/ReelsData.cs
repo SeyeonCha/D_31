@@ -13,11 +13,11 @@ public class ReelsData
     public string views;
     public string like;
 
-    public List<List<string>> comments;
-    public int n_comments;
+    public List<ReelsCommentData> comments; // name, content, like으로 이루어진 구조체
+    public int c_num;
 
 
-    public ReelsData(int uniqueId, int classId, string title, string youtuber, string subs, string views, string like, List<List<string>> comments)
+    public ReelsData(int uniqueId, int classId, string title, string youtuber, string subs, string views, string like, int c_num, List<ReelsCommentData> comments)
     {
         this.uniqueId = uniqueId;
         this.classId = classId;
@@ -28,7 +28,7 @@ public class ReelsData
         this.like =  like;
         this.isScrapped = 0;
 
-        this.comments = comments; // 원소 리스트 : name, content 쌍 리스트
-        this.n_comments = comments.Count;
+        this.comments = comments; // 리스트 원소 : // name, content, like으로 이루어진 구조체
+        this.c_num = c_num;
     }
 }

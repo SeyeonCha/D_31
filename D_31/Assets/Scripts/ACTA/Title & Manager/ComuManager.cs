@@ -27,20 +27,6 @@ public class ComuManager : MonoBehaviour
     public List<CommentData> comments; 
 
 
-    // 댓글 UI 
-    // public List<TextMeshProUGUI> comment1;
-    // public List<TextMeshProUGUI> comment2;
-    // public List<TextMeshProUGUI> comment3;
-    // public List<TextMeshProUGUI> comment4;
-
-    // private List<List<TextMeshProUGUI>> comments;
-    // public TextMeshProUGUI comment1;
-    // public TextMeshProUGUI name2;
-    // public TextMeshProUGUI comment2;
-    // public TextMeshProUGUI name3;
-    // public TextMeshProUGUI comment3;
-    // public TextMeshProUGUI name4;
-    // public TextMeshProUGUI comment4;
 
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
     // public RectTransform contentRectTransform;

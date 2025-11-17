@@ -28,43 +28,20 @@ public class ReelsManager : MonoBehaviour
     public TextMeshProUGUI like;     
 
     // 댓글 UI (이름, 내용, 좋아요수)
-    public List<TextMeshProUGUI> comment1;
-    public List<TextMeshProUGUI> comment2;
-    public List<TextMeshProUGUI> comment3;
-    public List<TextMeshProUGUI> comment4;
-    public List<TextMeshProUGUI> comment5;
+    public Transform CommentParent; // 부모 오브젝트
+    public GameObject CommentPrefab; // 댓글 프리팹
 
-    private List<List<TextMeshProUGUI>> comments;
-    // public TextMeshProUGUI comment1;
-    // public TextMeshProUGUI name2;
-    // public TextMeshProUGUI comment2;
-    // public TextMeshProUGUI name3;
-    // public TextMeshProUGUI comment3;
-    // public TextMeshProUGUI name4;
-    // public TextMeshProUGUI comment4;
+    private List<ReelsCommentData> comments;
 
     private void Awake()
     {
-        comments = new List<List<TextMeshProUGUI>>() {comment1, comment2, comment3, comment4, comment5};
+        // comments = new List<List<TextMeshProUGUI>>() {comment1, comment2, comment3, comment4, comment5};
         
-        // 해당 패널의 자식 오브젝트 UI 텍스트 가져오기
-        // reporter = transform.Find("reporter").GetComponent<TextMeshProUGUI>();
-        // like = transform.Find("like").GetComponent<TextMeshProUGUI>();
-        // dislike = transform.Find("dislike").GetComponent<TextMeshProUGUI>();
-        // content = transform.Find("content").GetComponent<TextMeshProUGUI>();
-
-        // if (reporter == null || like == null || dislike == null || content == null) {
-        //     Debug.Log("패널의 자식 UI들을 못찾음..");
-        // }
-        // else {
-        //     Debug.Log("패널의 자식 UI들을  모두 찾음!");
-        // }
-
     }
 
     public void GetSourceTitle(ReelsTitle stitle)
     {
-        // InitUI();
+        ClearComments();
         // 데이터의 정보 받아오기
         sourceTitle = stitle;
 
@@ -91,12 +68,29 @@ public class ReelsManager : MonoBehaviour
         like.text = sourceTitle.data.like.ToString(); 
 
         // 댓글 UI 채우기
-        // for (int i = 0; i<5;i++)
-        // {
-        //     comments[i][0].text = sourceTitle.data.comments[i][0].ToString();
-        //     comments[i][1].text = sourceTitle.data.comments[i][1].ToString();
-        //     comments[i][2].text = sourceTitle.data.comments[i][2].ToString();
-        // }
+        comments = sourceTitle.data.comments;
+        int c_num = sourceTitle.data.c_num;
+
+        for (int i = 0; i<c_num; i++) // 댓글 개수만큼 반복
+        {   
+            ReelsCommentData comment = comments[i]; // 소스 타이틀의 i번째 CommentData
+
+            GameObject clone = Instantiate(CommentPrefab, CommentParent); // 댓글 프리팹 생성
+            ReelsCommentHandler commentUI = clone.GetComponent<ReelsCommentHandler>(); // 댓글 프리팹에 붙은 핸들러 가져오기
+            commentUI.SetupUI(comment);
+
+
+        }
+    }
+    private void ClearComments()
+    {
+        if (CommentParent == null) return;
+
+        // 컨테이너의 모든 자식 오브젝트를 파괴
+        for (int i = CommentParent.childCount - 1; i >= 0; i--)
+        {
+            Destroy(CommentParent.GetChild(i).gameObject);
+        }
     }
     
     // 스크랩 버튼이 눌리면 불러와질 함수 정의
