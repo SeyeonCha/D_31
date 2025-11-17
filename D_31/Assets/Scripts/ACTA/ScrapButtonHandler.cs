@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
 {
     private int classId;
     private int clicked;
+    private int uniqueId; // 👈 추가함!
 
     [SerializeField]
     private Sprite before_scrap_img; // 클릭 전 스크랩버튼 이미지
@@ -25,11 +27,12 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
 
  
     }
-    public void GetSourceTitle(int isScrapped, int cId)
+    public void GetSourceTitle(int isScrapped, int cId, int uId)
     {
         
         classId = cId;
         clicked = isScrapped;
+        uniqueId = uId; // 👈 추가함!
         Debug.Log($"GetSourceTitle 실행됨 : {clicked}");
 
         if (clicked == 0) {

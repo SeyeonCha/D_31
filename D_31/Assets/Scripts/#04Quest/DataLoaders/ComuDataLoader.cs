@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Linq;
+
 public class ComuDataLoader : MonoBehaviour
 {
     [SerializeField] 

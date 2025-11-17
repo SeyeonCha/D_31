@@ -14,13 +14,15 @@ public class NewsManager : MonoBehaviour
 
     private int classId;
     private int clicked;
+    private int imageId; // 👈 추가함!
+    public Image newsImage; // 👈 추가함!
 
     public TextMeshProUGUI title;
     public TextMeshProUGUI reporter;
     public TextMeshProUGUI like1;
     public TextMeshProUGUI dislike1;
-    public TextMeshProUGUI like2;       // 👈 추가함!
-    public TextMeshProUGUI dislike2;    // 👈 추가함!
+    public TextMeshProUGUI like2;      
+    public TextMeshProUGUI dislike2;   
     public TextMeshProUGUI content;
 
     // 댓글 UI 
@@ -59,7 +61,19 @@ public class NewsManager : MonoBehaviour
         // else {
         //     Debug.Log("패널의 자식 UI들을  모두 찾음!");
         // }
+    }
 
+    private string GetDayFolderName()
+    {
+        int dayIndex = GameManager.DayEnded;
+        switch (dayIndex)
+        {
+            case 0: return "News_D-31";
+            case 1: return "News_D-30";
+            case 2: return "News_D-14";
+            case 3: return "News_D-4";
+            default: return "News_D-31";
+        }
     }
 
     public void GetSourceTitle(NewsTitle stitle)
@@ -70,7 +84,34 @@ public class NewsManager : MonoBehaviour
         // sourceData = sourceTitle.data;
         classId = sourceTitle.data.classId;
         clicked = sourceTitle.data.isScrapped;
+        imageId = sourceTitle.data.uniqueId;
+        
+        string folderName = GetDayFolderName();
+        string imagePath = $"news_image/{folderName}/{imageId}";
 
+        // 👇 이미지 로드 추가함!
+        Sprite loadedSprite = Resources.Load<Sprite>(imagePath);
+
+        if (newsImage != null)
+        {
+            if (loadedSprite != null)
+            {
+                newsImage.sprite = loadedSprite;
+                newsImage.enabled = true;
+                Debug.Log($"[NewsManager] 뉴스 이미지 로드 성공: ID {imageId} from: {imagePath}");
+            }
+            else
+            {
+                newsImage.enabled = false;
+                Debug.LogError($"[NewsManager] 뉴스 이미지 로드 실패: for ID {imageId}. " + 
+                               "Please ensure the image file is in a Resources folder and the path is correct: " + imagePath);
+            }
+        }
+        else
+        {
+            Debug.LogError("[NewsManager] News Image UI component is not assigned in the Inspector. Image cannot be set.");
+        }
+        
         // 패널 UI 텍스트들 채우기
         if (reporter == null) {
             Debug.Log("리포터 UI가 없음");
@@ -82,8 +123,8 @@ public class NewsManager : MonoBehaviour
         title.text = sourceTitle.data.title;
         like1.text = sourceTitle.data.like.ToString();
         dislike1.text = sourceTitle.data.dislike.ToString();
-        like2.text = sourceTitle.data.like.ToString();          // 👈 추가함!
-        dislike2.text = sourceTitle.data.dislike.ToString();    // 👈 추가함!
+        like2.text = sourceTitle.data.like.ToString();         
+        dislike2.text = sourceTitle.data.dislike.ToString();    
         content.text = sourceTitle.data.content.Replace("<n>","\n");
 
         for (int i = 0; i<4;i++)
