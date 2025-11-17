@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
-
+using Vimeo.Player;
 
 public class ReelsManager : MonoBehaviour
 {
@@ -15,6 +15,10 @@ public class ReelsManager : MonoBehaviour
 
     private int classId;
     private int clicked;
+    private int videoId;
+
+    //[Header("Vimeo Player & UI")]
+    //public VimeoPlayer vimeoPlayer;
 
     public TextMeshProUGUI title1;
     public TextMeshProUGUI title2;
@@ -38,10 +42,6 @@ public class ReelsManager : MonoBehaviour
     // public TextMeshProUGUI comment3;
     // public TextMeshProUGUI name4;
     // public TextMeshProUGUI comment4;
-
-    // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-    // public RectTransform contentRectTransform;
-    // public RectTransform newsPanelRectTransform;
 
     private void Awake()
     {
@@ -67,9 +67,14 @@ public class ReelsManager : MonoBehaviour
         // InitUI();
         // 데이터의 정보 받아오기
         sourceTitle = stitle;
+
         // sourceData = sourceTitle.data;
         classId = sourceTitle.data.classId;
         clicked = sourceTitle.data.isScrapped;
+        videoId = sourceTitle.data.uniqueId;
+
+        // Vimeo 영상 로드 및 재생을 요청
+        //LoadAndPlayVimeoVideo(sourceTitle.data.videoId);
 
         // 패널 UI 텍스트들 채우기
         if (youtuber == null) {
@@ -92,22 +97,8 @@ public class ReelsManager : MonoBehaviour
         //     comments[i][1].text = sourceTitle.data.comments[i][1].ToString();
         //     comments[i][2].text = sourceTitle.data.comments[i][2].ToString();
         // }
-
-        // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-        // if (newsPanelRectTransform != null)
-        // {
-        //     LayoutRebuilder.ForceRebuildLayoutImmediate(newsPanelRectTransform);
-        // }
-
-        // if (contentRectTransform != null)
-        // {
-        //     LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
-        // }
-
-        // 패널 켜기
-        // NewsPanel.SetActive(true);
-
     }
+    
     // 스크랩 버튼이 눌리면 불러와질 함수 정의
     public void ScrapButtonClicked()
     {

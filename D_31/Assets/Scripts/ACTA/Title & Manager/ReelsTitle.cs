@@ -9,7 +9,6 @@ public class ReelsTitle : MonoBehaviour, IPointerClickHandler
 {
     public ReelsData data; // 해당 제목에 해당하는 데이터
     private TextMeshProUGUI titleText; // 제목 텍스트
-    // public NewsManager newsManager;
 
     public GameObject post_panel; // 릴스 패널
     public GameObject ScrapButton; // 릴스 스크랩 버튼
@@ -75,9 +74,5 @@ public class ReelsTitle : MonoBehaviour, IPointerClickHandler
             
         }
         // UI 업데이트
-        
-
-        
-
     }
 }

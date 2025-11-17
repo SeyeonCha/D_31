@@ -15,9 +15,6 @@ public class ScrapButtonHandler : MonoBehaviour, IPointerClickHandler
     private Sprite before_scrap_img; // 클릭 전 스크랩버튼 이미지
     [SerializeField]
     private Sprite after_scrap_img; // 클릭 후 스크랩버튼 이미지
-
-    public PaperManager paperManager;
-
     private Image buttonImage; // 버튼의 Image 컴포넌트
 
     void Awake()
