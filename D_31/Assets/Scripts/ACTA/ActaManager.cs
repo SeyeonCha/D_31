@@ -17,12 +17,12 @@ public class ActaManager : MonoBehaviour
     public int DayEnded = 0; // 데이 수 계산. 
 
     // CSV 데이터 로드 파트
-    [SerializeField]
-    public NewsDataLoader newsDataLoader;
-    public CafeDataLoader cafeDataLoader;
-    public ComuDataLoader comuDataLoader;
-    public PaperDataLoader paperDataLoader;
-    public ReelsDataLoader reelsDataLoader;
+    // [SerializeField]
+    // public NewsDataLoader newsDataLoader;
+    // public CafeDataLoader cafeDataLoader;
+    // public ComuDataLoader comuDataLoader;
+    // public PaperDataLoader paperDataLoader;
+    // public ReelsDataLoader reelsDataLoader;
     // **나머지 플랫폼의 데이터 로더도 정의. 
 
     // 제목 업데이터

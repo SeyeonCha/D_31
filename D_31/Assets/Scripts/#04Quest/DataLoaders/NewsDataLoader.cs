@@ -52,13 +52,13 @@ public class NewsDataLoader : MonoBehaviour
         NewsDataMap = new Dictionary<int, List<NewsData>>(); // 데이터 틀 생성
 
         string fullText = titleDataFile.text;
-        // 여기서 큰따옴표 안에 있는 \n을 <br> 로 바꿔야 해
 
         string[] rows = fullText.Split(new char[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
 
+        Debug.Log($"num of rows : {rows.Length}");
         for (int i = 1; i < rows.Length; i++) // 두번째 행부터. 
         {
-            // Debug.Log($"{rows[i]}");
+            Debug.Log($"{rows[i]}");
 
             string[] columns = ParseCsvLine(rows[i]);
             // Debug.Log($"{columns[0]}\n{columns[1]}\n{columns[2]}\n{columns[3]}\n{columns[4]}\n{columns[5]}\n{columns[6]}");

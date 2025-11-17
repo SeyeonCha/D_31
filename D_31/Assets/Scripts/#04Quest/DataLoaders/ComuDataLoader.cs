@@ -60,7 +60,8 @@ public class ComuDataLoader : MonoBehaviour
             if (columns.Length >= 8 &&
                 int.TryParse(columns[0], out int uniqueId) &&
                 int.TryParse(columns[1], out int classId) && 
-                int.TryParse(columns[4], out int like))
+                int.TryParse(columns[4], out int like) &&
+                int.TryParse(columns[6], out int c_num))
             {
                 string title = columns[2]; // 따옴표 자동 제거됨
                 string writer = columns[3];
@@ -68,26 +69,30 @@ public class ComuDataLoader : MonoBehaviour
 
                 // 댓글 데이터 가져오기
             
-                List<List<string>> comments = new List<List<string>>(); // <name, comments>를 원소로 하는 List
+                List<CommentData> comments = new List<CommentData>();  // 댓글 리스트, CommentData : name, content, n_reply, rname, rcontent
 
-                // for (int j = 6;j<columns.Length; j+=3)
-                // {
-                //     if (((j+2) < columns.Length) && (columns[j+2] == "0"))
-                //     {
-                //         Debug.Log($"{columns[j]}, {columns[j+1]},{columns[j+2]}");
-                //         List<string> commentPair = new List<string> { columns[j], columns[j+1] }; // 작성자, 댓글 pair
-                //         comments.Add(commentPair);
-                //     }
-                //     else if (((j+2) < columns.Length) && columns[j+2] == "1")
-                //     {
-                //         List<string> commentPair = new List<string> { columns[j], columns[j+1],columns[j+3],columns[j+4] }; // 작성자, 댓글 pair
-                //         comments.Add(commentPair);
-                //         break;
-                //     }
+                for (int j = 0; j < c_num;j++) // 댓글 개수만큼 반복
+                {
+                    int name_idx = 7 + j * 3;// 7 -> 10 -> 13 또는 7 -> 10 또는 7
+                    if (name_idx + 2 < columns.Length) // 대댓글 수가 존재하는지
+                    {
+                        if (columns[name_idx+2] == "1")
+                        {
+                            comments.Add(new CommentData(columns[name_idx], columns[name_idx+1], 1, columns[name_idx+3], columns[name_idx+4])); // 대댓글도 저장
+                        }
+                        else if (columns[name_idx+2] == "0")
+                        {
+                            comments.Add(new CommentData(columns[name_idx], columns[name_idx+1])); // 이름이랑 내용만 저장
+                        }
+                        
+                    }
+                    else {
+                        Debug.Log("대댓글 개수 열이 없음..");
+                    }
 
-                // }
+                }
 
-                ComuData data = new ComuData(uniqueId, classId, title, writer, like, content, comments); // 게시물 하나짜리 데이터
+                ComuData data = new ComuData(uniqueId, classId, title, writer, like, content, c_num, comments); // 게시물 하나짜리 데이터
 
                 if (!ComuDataMap.ContainsKey(classId)) // 클래스 별로 나누어서 저장
                     ComuDataMap[classId] = new List<ComuData>();
