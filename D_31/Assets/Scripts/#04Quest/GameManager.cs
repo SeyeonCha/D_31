@@ -66,23 +66,30 @@ public class GameManager : MonoBehaviour
     }
     public void ToNextDay() 
     {
-        
-        Debug.Log($"ToNextDay() 실행됨, DayEnded : {DayEnded}, {missionCompleted}");
+        if (DayEnded == 3)
+        {
+            SceneManager.LoadScene("Final");
+        }
+        else
+        {
+            Debug.Log($"ToNextDay() 실행됨, DayEnded : {DayEnded}, {missionCompleted}");
 
-        DayEnded +=1 ;
-        // 데이 30 준비
-        LoadDayData();
-        Debug.Log($"30일 데이터 로더 실행됨, DayEnded : {DayEnded}");
-        CurationData = recoSystem.CurationCalculator();
-        Debug.Log($"CurationCalculator 실행됨, DayEnded : {DayEnded}");
-        Debug.Log($"CurationData : {CurationData[0]}"+
-                    $"CurationData : {CurationData[1]}"+
-                    $"CurationData : {CurationData[2]}"+
-                    $"CurationData : {CurationData[3]}"+
-                    $"CurationData : {CurationData[4]}"+
-                    $"CurationData : {CurationData[5]}");
-        ResetCount();
-        SceneManager.LoadScene("#03News"); // 다음 데이의 뉴스로 넘어가면 됨. 
+            DayEnded +=1 ;
+            // 데이 30 준비
+            LoadDayData();
+            Debug.Log($"30일 데이터 로더 실행됨, DayEnded : {DayEnded}");
+            CurationData = recoSystem.CurationCalculator();
+            Debug.Log($"CurationCalculator 실행됨, DayEnded : {DayEnded}");
+            Debug.Log($"CurationData : {CurationData[0]}"+
+                        $"CurationData : {CurationData[1]}"+
+                        $"CurationData : {CurationData[2]}"+
+                        $"CurationData : {CurationData[3]}"+
+                        $"CurationData : {CurationData[4]}"+
+                        $"CurationData : {CurationData[5]}");
+            ResetCount();
+            SceneManager.LoadScene("#03News"); // 다음 데이의 뉴스로 넘어가면 됨. 
+        }
+        
 
 
     }
@@ -105,22 +112,22 @@ public class GameManager : MonoBehaviour
             paperDataLoader.LoadCsvData(paperDataLoader.titleDataFile30);
             reelsDataLoader.LoadCsvData(reelsDataLoader.titleDataFile30);
         }
-        // else if (DayEnded == 2)
-        // {
-        //     newsDataLoader.LoadCsvData(newsDataLoader.titleDataFile14);
-        //     comuDataLoader.LoadCsvData(comuDataLoader.titleDataFile14);
-        //     cafeDataLoader.LoadCsvData(cafeDataLoader.titleDataFile14);
-        //     paperDataLoader.LoadCsvData(paperDataLoader.titleDataFile14);
-        //     reelsDataLoader.LoadCsvData(reelsDataLoader.titleDataFile14);
-        // }
-        // else if (DayEnded == 3)
-        // {
-        //     newsDataLoader.LoadCsvData(newsDataLoader.titleDataFile4);
-        //     comuDataLoader.LoadCsvData(comuDataLoader.titleDataFile4);
-        //     cafeDataLoader.LoadCsvData(cafeDataLoader.titleDataFile4);
-        //     paperDataLoader.LoadCsvData(paperDataLoader.titleDataFile4);
-        //     reelsDataLoader.LoadCsvData(reelsDataLoader.titleDataFile4);
-        // }
+        else if (DayEnded == 2)
+        {
+            newsDataLoader.LoadCsvData(newsDataLoader.titleDataFile14);
+            comuDataLoader.LoadCsvData(comuDataLoader.titleDataFile14);
+            cafeDataLoader.LoadCsvData(cafeDataLoader.titleDataFile14);
+            paperDataLoader.LoadCsvData(paperDataLoader.titleDataFile14);
+            reelsDataLoader.LoadCsvData(reelsDataLoader.titleDataFile14);
+        }
+        else if (DayEnded == 3)
+        {
+            newsDataLoader.LoadCsvData(newsDataLoader.titleDataFile4);
+            comuDataLoader.LoadCsvData(comuDataLoader.titleDataFile4);
+            cafeDataLoader.LoadCsvData(cafeDataLoader.titleDataFile4);
+            paperDataLoader.LoadCsvData(paperDataLoader.titleDataFile4);
+            reelsDataLoader.LoadCsvData(reelsDataLoader.titleDataFile4);
+        }
     }
     public void ResetCount() // PlayerPrefs 값 0으로 초기화 함수
     {

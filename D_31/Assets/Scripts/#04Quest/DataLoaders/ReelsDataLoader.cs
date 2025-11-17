@@ -12,10 +12,10 @@ public class ReelsDataLoader : MonoBehaviour
     public TextAsset titleDataFile31; // 31일 csv 파일 
     [SerializeField] 
     public TextAsset titleDataFile30; // 30일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile14; // 14일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile4; // 4일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile14; // 14일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<ReelsData>> ReelsDataMap;
     public Dictionary<int, List<ReelsData>> Data

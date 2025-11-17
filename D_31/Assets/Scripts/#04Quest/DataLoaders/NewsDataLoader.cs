@@ -12,10 +12,10 @@ public class NewsDataLoader : MonoBehaviour
     public TextAsset titleDataFile31; // 31일 csv 파일 
     [SerializeField] 
     public TextAsset titleDataFile30; // 30일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile14; // 14일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile4; // 4일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile14; // 14일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<NewsData>> NewsDataMap;
     public Dictionary<int, List<NewsData>> Data
@@ -61,7 +61,7 @@ public class NewsDataLoader : MonoBehaviour
             Debug.Log($"{rows[i]}");
 
             string[] columns = ParseCsvLine(rows[i]);
-            // Debug.Log($"{columns[0]}\n{columns[1]}\n{columns[2]}\n{columns[3]}\n{columns[4]}\n{columns[5]}\n{columns[6]}");
+            Debug.Log($"{columns[0]}\n{columns[1]}\n{columns[2]}\n{columns[3]}\n{columns[4]}\n{columns[5]}");
 
             if (columns.Length >= 8 &&
                 int.TryParse(columns[0], out int uniqueId) &&
@@ -90,6 +90,7 @@ public class NewsDataLoader : MonoBehaviour
                     NewsDataMap[classId] = new List<NewsData>();
 
                 NewsDataMap[classId].Add(data);
+                Debug.Log($"뉴스 데이터 추가:  {data.title} -> class : {data.classId}");
             }
         }
 

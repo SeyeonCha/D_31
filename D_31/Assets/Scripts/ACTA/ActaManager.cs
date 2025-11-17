@@ -94,7 +94,7 @@ public class ActaManager : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("Total_Count",0) >= 9) // 스크랩 수 충족시
         {
-            Debug.Log("퀘스트 달성!! 다음날 게시물 계산 실행");
+            // Debug.Log("퀘스트 달성!! 다음날 게시물 계산 실행");
             // 퀘스트 상태 : 달성!
             IsQuestCompleted = true;
             // EndDayButton.SetActive(true);

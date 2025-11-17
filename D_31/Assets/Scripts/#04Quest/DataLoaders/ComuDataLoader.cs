@@ -12,10 +12,10 @@ public class ComuDataLoader : MonoBehaviour
     public TextAsset titleDataFile31; // 31일 csv 파일 
     [SerializeField] 
     public TextAsset titleDataFile30; // 30일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile14; // 14일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile4; // 4일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile14; // 14일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<ComuData>> ComuDataMap;
     public Dictionary<int, List<ComuData>> Data
@@ -98,7 +98,7 @@ public class ComuDataLoader : MonoBehaviour
                     ComuDataMap[classId] = new List<ComuData>();
 
                 ComuDataMap[classId].Add(data);
-                // Debug.Log($"comu data 추가 : {data.title}");
+                Debug.Log($"comu data 추가 : {data.title}, CLASS : {data.classId}");
             }
         }
 

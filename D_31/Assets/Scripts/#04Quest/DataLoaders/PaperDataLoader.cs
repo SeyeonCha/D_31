@@ -12,10 +12,10 @@ public class PaperDataLoader : MonoBehaviour
     public TextAsset titleDataFile31; // 31일 csv 파일 
     [SerializeField] 
     public TextAsset titleDataFile30; // 30일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile14; // 14일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile4; // 4일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile14; // 14일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<PaperData>> PaperDataMap;
     public Dictionary<int, List<PaperData>> Data

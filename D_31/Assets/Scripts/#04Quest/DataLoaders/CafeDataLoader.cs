@@ -12,10 +12,10 @@ public class CafeDataLoader : MonoBehaviour
     public TextAsset titleDataFile31; // 31일 csv 파일 
     [SerializeField] 
     public TextAsset titleDataFile30; // 30일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile14; // 14일 csv 파일 
-    // [SerializeField] 
-    // public TextAsset titleDataFile4; // 4일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile14; // 14일 csv 파일 
+    [SerializeField] 
+    public TextAsset titleDataFile4; // 4일 csv 파일 
 
     private Dictionary<int, List<CafeData>> CafeDataMap;
     public Dictionary<int, List<CafeData>> Data
@@ -49,7 +49,7 @@ public class CafeDataLoader : MonoBehaviour
         string fullText = titleDataFile.text;
 
         string[] rows = fullText.Split(new char[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
-
+        Debug.Log($"rows.Length : {rows.Length}");
         for (int i = 1; i < rows.Length; i++) // 두번째 행부터. 
         {
             // Debug.Log($"{rows[i]}");
