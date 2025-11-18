@@ -12,6 +12,8 @@ public class IntroNewsTextLoader : MonoBehaviour
     public TextAsset CsvTextFile; // 31일 csv 파일 
     [SerializeField]
     private TextMeshProUGUI HeadlineText;
+    [SerializeField] 
+    private Image newsImage;
 
     private SceneFlowManager sceneFlowManager;
 
@@ -31,14 +33,39 @@ public class IntroNewsTextLoader : MonoBehaviour
 
         HeadlineText.text = IntroNewsDataMap[d][0].Replace("<n>","\n"); // 헤드라인 텍스트 입력
 
-
         string AnchorText = IntroNewsDataMap[d][1]; // 앵커라인 텍스트
 
         string[] delimiter = new string[] { "<n>" };
         string[] result = AnchorText.Split(delimiter, System.StringSplitOptions.RemoveEmptyEntries);
 
         sceneFlowManager.dialogueSentences = result;
-        
+
+        ChangeNewsImage(d); // 뉴스 이미지 로드 및 변경
+    }
+
+    private void ChangeNewsImage(int day)
+    {
+        if (newsImage == null)
+        {
+            Debug.LogError("뉴스 이미지를 표시할 Image 컴포넌트가 연결되지 않았습니다!");
+            return;
+        }
+
+        string imagePath = $"news_screen/{day}";
+        Sprite newSprite = Resources.Load<Sprite>(imagePath);
+
+       if (newSprite != null)
+        {
+            // 로드 성공 시 이미지 변경
+            newsImage.sprite = newSprite;
+            newsImage.SetNativeSize();
+
+            Debug.Log($"뉴스 이미지 경로: {imagePath}, 크기를 네이티브 사이즈로 설정했습니다.");
+        }
+        else
+        {
+            Debug.LogError($"Resources 폴더에서 경로: '{imagePath}'의 스프라이트를 로드할 수 없습니다. 이미지 파일이 '{imagePath}' 경로에 있는지, 확장자 없이 이름이 '{day}'인지 확인하세요.");
+        }
     }
 
     private static string[] ParseCsvLine(string line)
@@ -78,7 +105,6 @@ public class IntroNewsTextLoader : MonoBehaviour
                 IntroNewsDataMap[Day] = new List<string>();
 
             IntroNewsDataMap[Day] = Lines;
-
         }
     }
 }

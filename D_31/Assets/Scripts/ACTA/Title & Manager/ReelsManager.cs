@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using Vimeo.Player;
+using Vimeo;
 
 public class ReelsManager : MonoBehaviour
 {
@@ -15,10 +16,10 @@ public class ReelsManager : MonoBehaviour
 
     private int classId;
     private int clicked;
-    private int videoId;
+    private int uniqueId;
 
-    //[Header("Vimeo Player & UI")]
-    //public VimeoPlayer vimeoPlayer;
+    [Header("Vimeo Player & UI")]
+    public VimeoPlayer vimeoPlayer;
 
     public TextMeshProUGUI title1;
     public TextMeshProUGUI title2;
@@ -48,10 +49,10 @@ public class ReelsManager : MonoBehaviour
         // sourceData = sourceTitle.data;
         classId = sourceTitle.data.classId;
         clicked = sourceTitle.data.isScrapped;
-        videoId = sourceTitle.data.uniqueId;
+        uniqueId = sourceTitle.data.uniqueId;
 
-        // Vimeo 영상 로드 및 재생을 요청
-        //LoadAndPlayVimeoVideo(sourceTitle.data.videoId);
+        // 비디오 ID를 데이터 관리자에서 조회하고 로드합니다.
+        StartCoroutine(WaitForVimeoDataAndLoad());
 
         // 패널 UI 텍스트들 채우기
         if (youtuber == null) {
@@ -78,10 +79,59 @@ public class ReelsManager : MonoBehaviour
             GameObject clone = Instantiate(CommentPrefab, CommentParent); // 댓글 프리팹 생성
             ReelsCommentHandler commentUI = clone.GetComponent<ReelsCommentHandler>(); // 댓글 프리팹에 붙은 핸들러 가져오기
             commentUI.SetupUI(comment);
-
-
         }
     }
+
+    // GameManager.DayEnded 값에 따라 폴더 이름 (프로젝트 이름) 반환
+    private string GetDayFolderName()
+    {
+        int dayIndex = GameManager.DayEnded;
+        switch (dayIndex)
+        {
+            case 0: return "Reels_D-31";
+            case 1: return "Reels_D-30";
+            case 2: return "Reels_D-14";
+            case 3: return "Reels_D-4";
+            default: return "Reels_D-31"; 
+        }
+    }
+
+    // VimeoDataManager 로드를 기다린 후, 저장된 데이터에서 ID를 찾아 영상 로드
+    private IEnumerator WaitForVimeoDataAndLoad()
+    {
+        // VimeoDataManager 인스턴스가 생성되고 데이터 로드가 완료될 때까지 기다립니다.
+        // VimeoDataManager가 싱글톤 패턴으로 초기화되도록 보장합니다.
+        yield return new WaitUntil(() => VimeoDataManager.Instance != null && VimeoDataManager.Instance.IsDataLoaded);
+
+        string targetTitle = uniqueId.ToString();
+        string targetFolderName = GetDayFolderName();
+
+        // VimeoDataManager에서 영상 제목과 폴더 이름으로 ID를 조회합니다.
+        int videoId = VimeoDataManager.Instance.GetVideoId(targetFolderName, targetTitle);
+
+        if (videoId > 0)
+        {
+            LoadVimeoVideo(videoId);
+        }
+        else
+        {
+            Debug.LogError($"[ReelsManager] ID Not Found: Folder '{targetFolderName}', Title '{targetTitle}'. Cannot load video.");
+        }
+    }
+    
+    // Vimeo ID를 사용하여 영상 로드
+    private void LoadVimeoVideo(int videoId)
+    {
+        if (vimeoPlayer == null)
+        {
+            Debug.LogError("[ReelsManager] Vimeo Player component is not assigned.");
+            return;
+        }
+
+        vimeoPlayer.LoadVideo(videoId);
+        Debug.Log($"[ReelsManager] Load request sent for ID: {videoId}");
+    }
+
     private void ClearComments()
     {
         if (CommentParent == null) return;

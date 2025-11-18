@@ -44,7 +44,7 @@ namespace Vimeo
 
         private string video_file_path;
 
-        [HideInInspector]
+        //[HideInInspector]
         public string token;
         public static string API_URL = "https://api.vimeo.com";
         private WWWForm form;
