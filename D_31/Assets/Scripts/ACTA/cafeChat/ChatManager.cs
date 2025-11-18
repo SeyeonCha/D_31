@@ -12,7 +12,6 @@ public class ChatManager : MonoBehaviour
     [Header("Scenario Dialogue")]
     [Tooltip("대화 패널 전체 GameObject")]
     public GameObject dialoguePanel; 
-    [Tooltip("대화 시스템을 처리하는 컴포넌트 (DialogueSystem 같은)")]
     public DialogueSystem dialogueSystem; // DialogueSystem 컴포넌트가 필요합니다.
     
     // 퀘스트 텍스트 필드를 questText1과 questText2로 명확히 분리

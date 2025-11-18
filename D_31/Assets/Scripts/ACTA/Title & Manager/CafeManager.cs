@@ -140,6 +140,11 @@ public class CafeManager : MonoBehaviour
         
         // 대화 패널 비활성화
         dialoguePanel.SetActive(false);
+
+         if (!questText.gameObject.activeSelf)
+        {
+            questText.gameObject.SetActive(true);
+        }
         
         // 퀘스트 텍스트 업데이트
         questText.text = questUpdateMessage;
