@@ -7,14 +7,16 @@ public class SceneFlowManager : MonoBehaviour
     public GameObject HeadlinePanel;
     public GameObject headlineContent;
     public TypingEffect headlineTypingEffect;
-    //public GameObject spacebarHintText_H;
+
+    [Header("Headline Text")]
+    [TextArea(3, 5)]
+    public string headlineSentence;
 
     public GameObject NewsPanel;
 
     public GameObject newsContent;
     public Animator anchorAnimator;
     public TypingEffect dialogueTypingEffect;
-    //public GameObject spacebarHintText;
 
     [TextArea(3, 10)]
     public string[] dialogueSentences;
@@ -28,7 +30,9 @@ public class SceneFlowManager : MonoBehaviour
         HeadlinePanel.SetActive(true);
         NewsPanel.SetActive(false);
 
-        headlineTypingEffect.StartTyping(headlineTypingEffect.GetComponent<TMP_Text>().text);
+        ProceedToHeadlines();
+
+        //headlineTypingEffect.StartTyping(headlineTypingEffect.GetComponent<TMP_Text>().text);
     }
 
     void Update()
@@ -39,13 +43,27 @@ public class SceneFlowManager : MonoBehaviour
         }
     }
 
+    void ProceedToHeadlines()
+    {
+        currentPhase = 0;
+        
+        if (!string.IsNullOrEmpty(headlineSentence))
+        {
+            headlineTypingEffect.StartTyping(headlineSentence);
+        }
+        else
+        {
+            Debug.LogError("헤드라인 텍스트가 비어있습니다. Inspector에서 입력해주세요.");
+        }
+    }
+
     void HandleSpacebarPress()
     {
         if (currentPhase == 0)
         {
             if (headlineTypingEffect.IsTyping)
             {
-                headlineTypingEffect.SkipTyping(headlineTypingEffect.GetComponent<TMP_Text>().text);
+                headlineTypingEffect.SkipTyping(headlineSentence);
             }
             else
             {

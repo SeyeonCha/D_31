@@ -54,6 +54,12 @@ public class PanelToggler : MonoBehaviour
         }
     }
 
+    public void SetToOffState()
+    {
+        // 패널이 꺼진 상태를 시뮬레이션하고 이미지를 offSprite로 설정합니다.
+        SetButtonImage(false); 
+    }
+
     // 버튼 이미지를 설정하는 헬퍼 함수
     private void SetButtonImage(bool isOn)
     {

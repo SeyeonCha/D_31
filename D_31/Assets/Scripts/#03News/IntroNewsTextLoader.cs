@@ -10,8 +10,10 @@ public class IntroNewsTextLoader : MonoBehaviour
 {
     [SerializeField] 
     public TextAsset CsvTextFile; // 31일 csv 파일 
-    [SerializeField]
-    private TextMeshProUGUI HeadlineText;
+    
+    //[SerializeField]
+    //private TextMeshProUGUI HeadlineText;
+    
     [SerializeField] 
     private Image newsImage;
 
@@ -31,7 +33,7 @@ public class IntroNewsTextLoader : MonoBehaviour
 
         int d = GameManager.DayEnded; // 게임매니저에서 데이 정보 가져오기
 
-        HeadlineText.text = IntroNewsDataMap[d][0].Replace("<n>","\n"); // 헤드라인 텍스트 입력
+        sceneFlowManager.headlineSentence = IntroNewsDataMap[d][0].Replace("<n>","\n"); // 헤드라인 텍스트 입력
 
         string AnchorText = IntroNewsDataMap[d][1]; // 앵커라인 텍스트
 

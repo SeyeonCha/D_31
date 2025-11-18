@@ -17,12 +17,16 @@ public class ResetScrollOnEnable : MonoBehaviour
         }
     }
 
-    // 이 자식 패널이 활성화될 때마다 호출됩니다.
-    void OnEnable()
+   void OnEnable()
+    {
+        ResetScrollPosition();
+    }
+    
+    public void ResetScrollPosition()
     {
         if (parentScrollRect != null)
         {
-            // 2. 캐시된 상위 ScrollRect의 위치를 맨 위(1f)로 설정하여 초기화합니다.
+            // 캐시된 상위 ScrollRect의 위치를 맨 위(1f)로 설정하여 초기화합니다.
             parentScrollRect.verticalNormalizedPosition = 1f;
 
             // Debug.Log($"'{gameObject.name}' 패널 활성화 시 상위 스크롤을 초기화했습니다.");

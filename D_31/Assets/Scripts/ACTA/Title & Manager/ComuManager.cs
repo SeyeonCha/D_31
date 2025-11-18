@@ -26,11 +26,9 @@ public class ComuManager : MonoBehaviour
 
     public List<CommentData> comments; 
 
-
-
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
-    // public RectTransform contentRectTransform;
-    // public RectTransform newsPanelRectTransform;
+    public RectTransform contentRectTransform;
+    public RectTransform comuPanelRectTransform;
 
     private void Awake()
     {
@@ -79,11 +77,20 @@ public class ComuManager : MonoBehaviour
                 replyUI.SetupUI(rcomment);
 
             }
-
-
         }
 
+         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
+        if (comuPanelRectTransform != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(comuPanelRectTransform);
+        }
+
+        if (contentRectTransform != null)
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(contentRectTransform);
+        }
     }
+
     private void ClearComments()
     {
         if (CommentParent == null) return;

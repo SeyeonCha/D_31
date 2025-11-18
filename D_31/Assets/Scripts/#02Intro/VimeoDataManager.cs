@@ -5,18 +5,13 @@ using Vimeo;
 using Vimeo.SimpleJSON;
 using System.Text.RegularExpressions;
 using System;
-using System.Linq; // Dictionary.ElementAt() 사용을 위해 추가
 
 // VideoLookupData 구조체 정의
 [System.Serializable]
 public class VideoLookupData
 {
     public string FolderName; // 예: "Reels_D-31"
-    
-    // Dictionary<Key: Video Title, Value: (Video ID, Thumbnail URL)>
-    // 유니티 인스펙터 직렬화 제한으로 인해 Dictionary<string, T>는 직렬화되지 않으므로, 
-    // 실제 데이터는 Dictionary를 사용하되, 인스펙터에서는 표시되지 않습니다.
-    public Dictionary<string, (int videoId, string thumbnailUrl)> Videos = new Dictionary<string, (int videoId, string thumbnailUrl)>(); 
+    public Dictionary<string, int> Videos = new Dictionary<string, int>(); // Key: Video Title, Value: Video ID
 }
 
 public class VimeoDataManager : MonoBehaviour
@@ -76,13 +71,14 @@ public class VimeoDataManager : MonoBehaviour
         }
 
         // 2. 토큰 주입
+        // (VimeoApi의 public string token 필드에 인스펙터 값을 주입합니다.)
         if (!string.IsNullOrEmpty(vimeoApiToken))
         {
             api.token = vimeoApiToken;
         }
         else if (!string.IsNullOrEmpty(api.token))
         {
-            // 만약 API 컴포넌트에 토큰이 이미 설정되어 있다면 그 값을 vimeoApiToken에 저장합니다.
+            // 만약 API 컴포넌트에 토큰이 이미 설정되어 있다면 그 값을 사용합니다.
             vimeoApiToken = api.token;
         }
     }
@@ -123,7 +119,7 @@ public class VimeoDataManager : MonoBehaviour
             IsDataLoaded = true;
             yield break;
         }
-        
+
         // 2. 각 폴더(프로젝트)를 순회하며 내부 영상 목록을 요청합니다.
         foreach (JSONNode projectNode in json["data"].AsArray)
         {
@@ -131,11 +127,12 @@ public class VimeoDataManager : MonoBehaviour
             string projectUri = projectNode["uri"].Value;
             
             VideoLookupData folderData = new VideoLookupData {
-                FolderName = folderName
+                FolderName = folderName,
+                Videos = new Dictionary<string, int>()
             };
 
-            // 썸네일 정보(pictures)를 요청 필드에 추가합니다.
-            string videosSearchPath = $"{projectUri}/videos?fields=name,uri,pictures&per_page=100";
+            // 해당 폴더의 영상 목록 요청
+            string videosSearchPath = $"{projectUri}/videos?fields=name,uri&per_page=100";
             yield return SendApiRequest(videosSearchPath);
 
             if (isRequestSuccessful)
@@ -145,28 +142,16 @@ public class VimeoDataManager : MonoBehaviour
                     JSONNode videosJson = JSONNode.Parse(apiResponseResult);
                     if (videosJson["data"] != null)
                     {
-                        // 3. 각 영상의 이름, ID, 썸네일 URL을 추출하여 저장합니다.
+                        // 3. 각 영상의 이름과 ID를 추출하여 저장합니다.
                         foreach (JSONNode videoNode in videosJson["data"].AsArray)
                         {
                             string videoName = videoNode["name"].Value;
-                            string videoUri = videoNode["uri"].Value; 
-                            string thumbnailUrl = null;
+                            string videoUri = videoNode["uri"].Value; // 예: /videos/123456789
 
-                            // 썸네일 URL 추출 로직: 가장 큰 썸네일 링크를 찾습니다.
-                            if (videoNode["pictures"] != null && videoNode["pictures"]["sizes"].Count > 0)
-                            {
-                                // sizes 배열의 마지막 요소가 가장 큰 이미지 사이즈일 가능성이 높음
-                                // 또는, 특정 해상도를 기준으로 선택할 수 있습니다. 여기서는 마지막(가장 큰) 것을 사용합니다.
-                                JSONNode sizes = videoNode["pictures"]["sizes"];
-                                // Vimeo API는 보통 큰 사이즈부터 정렬되어 있지만, 안전하게 마지막 요소를 가져옵니다.
-                                thumbnailUrl = sizes[sizes.Count - 1]["link"].Value; 
-                            }
-                            
                             Match match = Regex.Match(videoUri, "/([0-9]+)$");
                             if (match.Success && int.TryParse(match.Groups[1].Value, out int videoId))
                             {
-                                // (ID, Thumbnail URL) 튜플을 딕셔너리에 저장합니다.
-                                folderData.Videos[videoName] = (videoId, thumbnailUrl);
+                                folderData.Videos[videoName] = videoId;
                             }
                         }
                     }
@@ -192,7 +177,7 @@ public class VimeoDataManager : MonoBehaviour
     private bool isRequestComplete;
     private bool isRequestSuccessful;
     
-    // API 요청 이벤트 핸들러 (SendApiRequest 코루틴이 기다리는 상태를 제어)
+    // API 요청 이벤트 핸들러
     private void ApiRequestComplete(string response)
     {
         apiResponseResult = response;
@@ -214,6 +199,7 @@ public class VimeoDataManager : MonoBehaviour
         isRequestComplete = false;
         isRequestSuccessful = false;
         
+        // 요청마다 이벤트를 구독하고 처리 후 해제하여 코루틴이 충돌하지 않도록 합니다.
         api.OnRequestComplete += ApiRequestComplete;
         api.OnError += ApiError;
         
@@ -221,9 +207,6 @@ public class VimeoDataManager : MonoBehaviour
         
         // 요청 완료 대기
         yield return new WaitUntil(() => isRequestComplete);
-        
-        // 에러 이벤트 핸들러 해제
-        api.OnError -= ApiError; 
         
         if (!isRequestSuccessful)
         {
@@ -245,9 +228,9 @@ public class VimeoDataManager : MonoBehaviour
 
         if (allVimeoData.TryGetValue(folderName, out VideoLookupData folderData))
         {
-            if (folderData.Videos.TryGetValue(videoTitle, out var videoDetails))
+            if (folderData.Videos.TryGetValue(videoTitle, out int videoId))
             {
-                return videoDetails.videoId;
+                return videoId;
             }
             Debug.LogWarning($"[VimeoDataManager] Video title '{videoTitle}' not found in folder '{folderName}'.");
             return -1;
@@ -255,31 +238,5 @@ public class VimeoDataManager : MonoBehaviour
         
         Debug.LogWarning($"[VimeoDataManager] Folder '{folderName}' not found in loaded data.");
         return -1;
-    }
-    
-    /// <summary>
-    /// 저장된 데이터를 기반으로 썸네일 URL을 조회합니다.
-    /// </summary>
-    public string GetVideoThumbnailUrl(string folderName, string videoTitle)
-    {
-        if (!IsDataLoaded)
-        {
-            Debug.LogError("[VimeoDataManager] Data is not yet loaded. Cannot retrieve thumbnail URL.");
-            return null;
-        }
-
-        if (allVimeoData.TryGetValue(folderName, out VideoLookupData folderData))
-        {
-            if (folderData.Videos.TryGetValue(videoTitle, out var videoDetails))
-            {
-                // 튜플의 두 번째 요소인 thumbnailUrl을 반환합니다.
-                return videoDetails.thumbnailUrl;
-            }
-            Debug.LogWarning($"[VimeoDataManager] Video title '{videoTitle}' not found in folder '{folderName}'.");
-            return null;
-        }
-        
-        Debug.LogWarning($"[VimeoDataManager] Folder '{folderName}' not found in loaded data.");
-        return null;
     }
 }
