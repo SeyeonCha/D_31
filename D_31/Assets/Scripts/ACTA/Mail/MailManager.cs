@@ -11,11 +11,21 @@ public class MailManager : MonoBehaviour
     public GameObject contentText;
     public TypingEffect contentTypingEffect;
 
+    public GameObject sceneTargetObject; // Broker Mail
+
+    // public BrokerMailUI brokerMail;
+
 
     public void Awake()
     {
-        AddMailToTop("답장1", "2049-11-11");
-        AddMailToTop("답장2", "2049-11-11");
+        // AddMailToTop("답장1", "2049-11-11");
+        // AddMailToTop("답장2", "2049-11-11");
+        // if (GameManager.DayEnded == 1)
+        if (true)
+        {
+            AddMailToTop("요청하신 건에 대한 답변", "11.06 09:11:24");
+            // brokerMail.changeText(0);
+        }
     }
 
     private void Update()
@@ -33,9 +43,9 @@ public class MailManager : MonoBehaviour
     public void AddMailToTop(string title, string time) // 메일 리스트에 메일 추가하는 함수
     {
         GameObject newItem = Instantiate(itemPrefab, content);
-
         MailUI mailUI = newItem.GetComponent<MailUI>();
         mailUI.SetupUI(title, time);
+        mailUI.SetupButton(sceneTargetObject.name);
         newItem.transform.SetAsFirstSibling();
     }
 
@@ -45,5 +55,6 @@ public class MailManager : MonoBehaviour
         contentTypingEffect.StartTyping(contentTypingEffect.GetComponent<TMP_Text>().text);
 
     }
+
 
 }

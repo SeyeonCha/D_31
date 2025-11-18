@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     public static int DayEnded = 0;
     private const int NUM_CLASSES = 5;
     private const string COUNT_KEY_PREFIX = "Class_";
+ 
+    public static bool isOrganSold = false; // 장기 매매 여부
+    public static bool isLotteryToBroker = false; // 로또 당첨금을 브로커에게 줬는지 여부
+
 
     public NewsDataLoader newsDataLoader;
     public ComuDataLoader comuDataLoader;

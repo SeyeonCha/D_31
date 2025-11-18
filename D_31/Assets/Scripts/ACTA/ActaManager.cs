@@ -16,6 +16,10 @@ public class ActaManager : MonoBehaviour
     public bool IsQuestCompleted = false; // 퀘스트 달성 여부
     public int DayEnded = 0; // 데이 수 계산. 
 
+    public bool alarmActivated = false;
+
+    public GameObject alarmText;
+
     // CSV 데이터 로드 파트
     // [SerializeField]
     // public NewsDataLoader newsDataLoader;
@@ -105,6 +109,16 @@ public class ActaManager : MonoBehaviour
             MissionSuccessPopup.SetActive(true);
             GameManager.Instance.missionCompleted = true; // 이거 땜에 엔드 데이 버튼이 활성화 될거임. (안됨)
         }
+    }
+    public void MailAlarm()
+    {
+        Invoke("ActivateAlarm",30f);
+        alarmActivated = true;
+        // alarmText.SetActive(true);
+    }
+    private void ActivateAlarm()
+    {
+        alarmText.SetActive(true);
     }
     
     
