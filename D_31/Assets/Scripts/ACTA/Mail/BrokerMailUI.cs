@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+
 // 브로커 메일 패널에 붙음. 
 public class BrokerMailUI : MonoBehaviour
 {
@@ -29,6 +31,12 @@ public class BrokerMailUI : MonoBehaviour
     public MailManager mailManager;
 
     private Coroutine thinkingRoutine;
+
+    [SerializeField]
+    private Sprite bReply1_image; // 클릭 전 스크랩버튼 이미지
+    public ContentScroller scroller;
+
+    public GameObject linkButton ;
     
 
     // public int mode = 0; // 시나리오 모드
@@ -92,10 +100,16 @@ public class BrokerMailUI : MonoBehaviour
             PlayerThinking.SetActive(false);
 
             // 첫번째 답장 패널 키기
-            string first_reply = "솔직히 말씀드리면, 18억 크레딧은 지금 제가 감당하기는 어려운 금액입니다... \n혹시 다른 방법이 있을까요? 정말로 간절합니다. \n답변 기다리겠습니다.";
-
+            string first_reply = "안녕하세요. 회신 감사합니다. 솔직히 말씀드리면, 18억 크레딧은 지금 제가 감당하기는 어려운 금액입니다. 하지만 이 기회를 놓치고 싶지는 않네요.. \n혹시 다른 방법이 있을까요? 어떤 조건이든 따르겠습니다.";
             MyReply1.GetComponent<ReplyHandler>().changeText(first_reply);
             MyReply1.SetActive(true);
+            scroller.ScrollDownSlightly();
+
+            // 생성된 답장을 맨 위로 설정하기.
+            // actaManager.GetComponent<ScrollToTarget>().targetObject = MyReply1.GetComponent<RectTransform>();
+            // actaManager.GetComponent<ScrollToTarget>().ScrollToTargetObject();
+
+            
             Invoke("BrokerReplyOn1", 3f);
             thinkingRoutine = StartCoroutine(StartThinkingSequence(8f));
         }
@@ -121,18 +135,19 @@ public class BrokerMailUI : MonoBehaviour
             string player_r2 = "";
             if (clickedButton == 1) // 할게요
             {
-                player_r2 = "조금 위험하더라도 살아남고 싶습니다.\n구체적인 내용 부탁드립니다.";
+                player_r2 = "조금 위험하더라도 살아남고 싶습니다.\n구체적인 내용과 조건 안내 부탁드립니다.";
             }
             else if (clickedButton == 2) // 안 할게요
             {
-                player_r2 = "죄송하지만 요청은 철회하겠습니다. 관련 내용은 외부에 공유하지 않을테니 양해 부탁드립니다.";
+                player_r2 = "브로커님, 아무래도 이 프로그램은 제가 감당할 수 있는 일이 아닌 것 같습니다...\n죄송합니다. ";
             }
             else if (clickedButton == 3) // 고민
             {
-                player_r2 = "조금 더 생각할 시간이 필요할 것 같습니다. 조금만 기다려주시면 곧 답변드리겠습니다.";
+                player_r2 = "조금 더 생각할 시간이 필요할 것 같습니다.";
             }
             MyReply2.GetComponent<ReplyHandler>().changeText(player_r2);
             MyReply2.SetActive(true);
+            scroller.ScrollDownSlightly();
             Invoke("BrokerReplyOn2", 3f);
 
             
@@ -179,6 +194,7 @@ public class BrokerMailUI : MonoBehaviour
             }
             MyReply1.GetComponent<ReplyHandler>().changeText(player_r1);
             MyReply1.SetActive(true);
+            scroller.ScrollDownSlightly();
             Invoke("BrokerReplyOn2", 3f);
 
             
@@ -191,9 +207,10 @@ public class BrokerMailUI : MonoBehaviour
     }
     private void BrokerReplyOn1()
     {
-        string broker_r = "귀하의 사정은 이해합니다만, 금액 조정은 불가능합니다. 예외는 없습니다.\n\n다만, 한 가지 다른 방법이 있습니다. \n이 방식은 일정 수준 이상의 위험을 수반하지만, 그에 상응하는 크레딧은 보장드립니다. \n원하시나요? 답장 주시면 구체적인 내용 안내드리겠습니다.";
+        // string broker_r = "귀하의 사정은 이해합니다만, 금액 조정은 불가능합니다. 예외는 없습니다.\n\n다만, 한 가지 다른 방법이 있습니다. \n이 방식은 일정 수준 이상의 위험을 수반하지만, 그에 상응하는 크레딧은 보장드립니다. \n원하시나요? 답장 주시면 구체적인 내용 안내드리겠습니다.";
 
-        bReply1.GetComponent<ReplyHandler>().changeText(broker_r);
+        // bReply1.GetComponent<ReplyHandler>().changeText(broker_r);
+        scroller.ScrollDownSlightly();
         bReply1.SetActive(true);  
     }
     private void BrokerReplyOn2()
@@ -202,11 +219,12 @@ public class BrokerMailUI : MonoBehaviour
         if (clickedButton == 1) // 할게요
         {
             broker_r = "http://www.onlyicouldlive.com/";
+            linkButton.SetActive(true);
         }
-        else if (clickedButton == 2) // 안 할게요
-        {
-            broker_r = "아쉽네요. 그러시죠.";
-        }
+        // else if (clickedButton == 2) // 안 할게요
+        // {
+        //     broker_r = "아쉽네요. 그러시죠.";
+        // }
         else if (clickedButton == 3) // 고민
         {
             broker_r = "시간이 많지 않습니다. 빠른 판단 내리시기 바랍니다.";
@@ -217,11 +235,20 @@ public class BrokerMailUI : MonoBehaviour
         if (mailManager.mode == 3)
         {
             bReply2.GetComponent<ReplyHandler>().changeText(broker_r);
+            scroller.ScrollDownSlightly();
             bReply2.SetActive(true);  
         }
-        else if (mailManager.mode == 5)
+        else if (mailManager.mode == 5 && (clickedButton == 1 || clickedButton == 2))
         {
             bReply1.GetComponent<ReplyHandler>().changeText(broker_r);
+            bReply1.GetComponent<Image>().sprite = bReply1_image;
+
+            bReply1.GetComponent<Transform>().localPosition = new Vector3(
+                bReply1.GetComponent<Transform>().localPosition.x, // 현재 x 값 유지
+                800f,                                          // 새로운 y 값
+                bReply1.GetComponent<Transform>().localPosition.z  // 현재 z 값 유지
+            );
+            scroller.ScrollDownSlightly();
             bReply1.SetActive(true);  
         }
         

@@ -37,8 +37,7 @@ public class ActaManager : MonoBehaviour
     private void Awake()
     {
         // 메일 알람 키는 함수 (데이14는 악타 키자마자 바로 메일답장 있음)
-        // if (GameManager.DayEnded == 2)
-        if (true)
+        if (GameManager.DayEnded == 2)
         {
             ActivateAlarm(); 
             Debug.Log("Alarm Activated");
