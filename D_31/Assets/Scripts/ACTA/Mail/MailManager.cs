@@ -27,7 +27,7 @@ public class MailManager : MonoBehaviour
     public void OnEnable()
     {
         Debug.Log($"Mail Manager Awaked : {mode}");
-        if (GameManager.DayEnded == 1)
+        if (GameManager.DayEnded == 2)
         {
             if (mode == 0) 
             {

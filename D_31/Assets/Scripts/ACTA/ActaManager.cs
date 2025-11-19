@@ -96,6 +96,8 @@ public class ActaManager : MonoBehaviour
         alarmActivated = false;
     }
     
-    
-
+    public void OrganSold()
+    {
+        GameManager.isOrganSold = true;
+    }
 }

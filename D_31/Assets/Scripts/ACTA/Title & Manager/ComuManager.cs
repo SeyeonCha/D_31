@@ -104,10 +104,13 @@ public class ComuManager : MonoBehaviour
     // 스크랩 버튼이 눌리면 불러와질 함수 정의
     public void ScrapButtonClicked()
     {
-        sourceTitle.data.isScrapped = 1;
-        Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
+        if (sourceTitle.data.isScrapped == 0)
+        {
+            sourceTitle.data.isScrapped = 1;
+            Debug.Log($"SCRAPPED : {sourceTitle.data.isScrapped}, class : {classId}");
 
-        displayer.ScrapCounter(classId);
+            displayer.ScrapCounter(classId);
+        }
 
     }
 }
