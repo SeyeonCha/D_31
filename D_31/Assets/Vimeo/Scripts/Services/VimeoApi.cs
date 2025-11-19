@@ -229,11 +229,25 @@ namespace Vimeo
 
         public IEnumerator Request(string api_path)
         {
-            if (token != null) {
+            // 🚨 🚨 🚨 Token 유효성 검사 강화 🚨 🚨 🚨
+            if (!string.IsNullOrEmpty(token)) {
+                
                 UnityWebRequest request = UnityWebRequest.Get(API_URL + api_path);
                 PrepareHeaders(request);
+                
+                Debug.Log($"[VimeoApi] Sending request: {API_URL + api_path}");
+
                 yield return VimeoApi.SendRequest(request);
                 ResponseHandler(request);
+            } else {
+                // 🚨 토큰이 null일 때의 로그를 유지
+                Debug.LogError("[VimeoApi] Cannot send request: Token is null or empty. Check VimeoPlayer initialization.");
+                
+                // 에러 이벤트를 발생시켜 VimeoPlayer가 타임아웃되지 않도록 함
+                if (OnError != null)
+                {
+                    OnError("Authentication token is missing.");
+                }
             }
         }
 

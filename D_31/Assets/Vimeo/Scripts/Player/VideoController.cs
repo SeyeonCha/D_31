@@ -193,7 +193,9 @@ namespace Vimeo.Player
 
         private void VideoPlayerError(VideoPlayer source, string message)
         {
-            Debug.Log("VideoPlayerError: " + message);
+            //Debug.Log("VideoPlayerError: " + message);
+            // 🚨 에러 수신 로그 추가
+            Debug.LogError("[VideoController] VideoPlayer Error Received: " + message);
         }
 
         void Update()
@@ -216,6 +218,9 @@ namespace Vimeo.Player
 
         private void VideoPlayerStarted(VideoPlayer source)
         {
+            // 🚨 영상 준비 완료 로그 추가
+            Debug.Log("[VideoController] VideoPlayer Prepare COMPLETED.");
+
             if (frameStepping) {
                 source.Pause();
             } else {
@@ -225,12 +230,22 @@ namespace Vimeo.Player
             width = videoPlayer.texture.width;
             height = videoPlayer.texture.height;
 
+            // 🚨 해상도 및 렌더링 모드 로그 추가
+            Debug.Log($"[VideoController] Video Resolution: {width}x{height}. Render Mode: {videoPlayer.renderMode}.");
+        
+
             if (videoPlayer.renderMode == VideoRenderMode.RenderTexture) {
                 videoRT = new RenderTexture(width, height, 16, RenderTextureFormat.ARGB32);
                 videoRT.Create();
                 videoPlayer.targetTexture = videoRT;
                 RawImage img = videoScreenObject.GetComponent<RawImage>();
-                img.texture = videoRT;
+                //img.texture = videoRT;
+                if (img != null) {
+                    img.texture = videoRT;
+                    Debug.Log("[VideoController] RenderTexture assigned to RawImage."); // 👈 로그 추가
+                } else {
+                    Debug.LogError("[VideoController] RenderTexture mode selected but RawImage component not found on screen object!"); // 👈 오류 로그 추가
+                }
             }
 
             StartCoroutine("WaitForRenderTexture");

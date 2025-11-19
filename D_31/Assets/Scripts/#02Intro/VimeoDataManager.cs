@@ -20,9 +20,9 @@ public class VimeoDataManager : MonoBehaviour
     public static VimeoDataManager Instance { get; private set; }
 
     // 외부에서 토큰을 입력받기 위한 필드를 인스펙터에 노출합니다.
-    [Header("Vimeo Settings")]
-    [Tooltip("Vimeo API 토큰을 여기에 입력하세요.")]
-    public string vimeoApiToken;
+    //[Header("Vimeo Settings")]
+    //[Tooltip("Vimeo API 토큰을 여기에 입력하세요.")]
+    public string vimeoApiToken = "f14b88cc3b05e8286cc3ff409aa1fcf8";
 
     // Vimeo API 컴포넌트
     private VimeoApi api;

@@ -47,17 +47,43 @@ namespace Vimeo.Player
         {
             Application.runInBackground = true;
 
+            // if (api == null) {
+            //     api = gameObject.AddComponent<VimeoApi>();
+            //     api.token = GetVimeoToken();
+            //     api.OnError += ApiError;
+            // }
+
             if (api == null) {
                 api = gameObject.AddComponent<VimeoApi>();
-                api.token = GetVimeoToken();
-                api.OnError += ApiError;
+                
+                // 🚨 🚨 🚨 수정된 부분: 토큰 주입 로직 🚨 🚨 🚨
+                string tokenToUse = GetVimeoToken(); // PlayerSettings에서 토큰을 시도합니다.
+                
+                // 1. VimeoDataManager가 로드되어 있고 유효한 토큰을 가지고 있다면 사용합니다.
+                if (string.IsNullOrEmpty(tokenToUse) && VimeoDataManager.Instance != null)
+                {
+                    tokenToUse = VimeoDataManager.Instance.vimeoApiToken;
+                }
+                
+                if (!string.IsNullOrEmpty(tokenToUse))
+                {
+                    api.token = tokenToUse;
+                    Debug.Log("[VimeoPlayer] API Token successfully injected."); // 👈 성공 로그
+                }
+                else
+                {
+                    Debug.LogError("[VimeoPlayer] FATAL: Failed to inject API token from any source."); // 👈 실패 로그
+                }
+                // 🚨 🚨 🚨 수정 끝 🚨 🚨 🚨
+            
+            api.OnError += ApiError;
             }
 
             SetupVideoController();
 
-            if (autoPlay == true) {
-                LoadAndPlayVideo();
-            }
+            // if (autoPlay == true) {
+            //     LoadAndPlayVideo();
+            // }
 
             if (OnStart != null) {
                 OnStart();
@@ -99,7 +125,16 @@ namespace Vimeo.Player
                 Debug.LogWarning("[Vimeo] No video screen was specified.");
             }
 
+            // 🚨 기존 이벤트 구독 코드를 함수 시작 전에 안전하게 해제 및 재등록
+            api.OnRequestComplete -= VideoMetadataLoad;
             api.OnRequestComplete += VideoMetadataLoad;
+
+            api.OnError -= ApiError;
+            api.OnError += ApiError;
+
+            // 🚨 API 요청 직전 로그 추가
+            Debug.Log($"[VimeoPlayer] Requesting Metadata for ID: {vimeo_id}");
+            
             api.GetVideoFileUrlByVimeoId(vimeo_id);
         }
 
@@ -210,6 +245,7 @@ namespace Vimeo.Player
 
                 if (this.selectedResolution == StreamingResolution.Adaptive) {
                     yield return Unfurl(vimeoVideo.GetAdaptiveVideoFileURL());
+                    Debug.Log("[VimeoPlayer] Final file URL after Unfurl: " + m_file_url); // 👈 로그를 추가해야 함
                 }
                 else {
                     m_file_url = vimeoVideo.GetVideoFileUrlByResolution(selectedResolution);
@@ -363,16 +399,17 @@ namespace Vimeo.Player
             api.OnRequestComplete -= VideoMetadataLoad;
 
             if (json["error"] == null) {
-                if (json["user"] != null && json["user"]["account"].Value == "basic") {
-                    Debug.LogError("[VimeoPlayer] You do not have permission to stream videos. You must be a Vimeo Pro or Business customer. https://vimeo.com/upgrade");
-                }
-
-                if ((json["play"] == null || json["play"]["progressive"] == null) && json["files"] == null) {
-                    Debug.LogError("[VimeoPlayer] You do not have permission to access to this video. You must be a Vimeo Pro or Business customer and use videos from your own account. https://vimeo.com/upgrade");
-                }
-
+                // vimeoVideo 객체가 성공적으로 생성된 후
                 vimeoVideo = new VimeoVideo(json);
 
+                // 최종 스트리밍 URL이 어떤 형식인지 확인하는 로그 추가
+                if (vimeoVideo != null)
+                {
+                    // Unfurl 전의 URL을 미리 확인합니다. (보통 M3U8 또는 DASH 링크)
+                    string adaptiveUrl = vimeoVideo.GetAdaptiveVideoFileURL();
+                    Debug.Log("[VimeoPlayer] Initial Stream URL (Pre-Unfurl): " + adaptiveUrl);
+                }
+                
                 if (autoPlay || playVideoAfterLoad) {
                     Play();
                     playVideoAfterLoad = false;
@@ -382,8 +419,29 @@ namespace Vimeo.Player
                     OnVideoMetadataLoad();
                 }
             } else {
-                Debug.LogError("Video could not be found");
+                Debug.LogError("Video could not be found or metadata error.");
             }
+            //     if (json["user"] != null && json["user"]["account"].Value == "basic") {
+            //         Debug.LogError("[VimeoPlayer] You do not have permission to stream videos. You must be a Vimeo Pro or Business customer. https://vimeo.com/upgrade");
+            //     }
+
+            //     if ((json["play"] == null || json["play"]["progressive"] == null) && json["files"] == null) {
+            //         Debug.LogError("[VimeoPlayer] You do not have permission to access to this video. You must be a Vimeo Pro or Business customer and use videos from your own account. https://vimeo.com/upgrade");
+            //     }
+
+            //     vimeoVideo = new VimeoVideo(json);
+
+            //     if (autoPlay || playVideoAfterLoad) {
+            //         Play();
+            //         playVideoAfterLoad = false;
+            //     }
+
+            //     if (OnVideoMetadataLoad != null) {
+            //         OnVideoMetadataLoad();
+            //     }
+            // } else {
+            //     Debug.LogError("Video could not be found");
+            // }
         }
 
         public IEnumerator Unfurl(string url)
@@ -392,10 +450,13 @@ namespace Vimeo.Player
                 yield return VimeoApi.SendRequest(www);
 
 
+                // 🚨 최종 URL 획득 결과 로그 추가
                 if (!VimeoApi.IsNetworkError(www)) {
                     m_file_url = www.url;
+                    Debug.Log("[VimeoPlayer] Unfurl SUCCESS. Final Play URL: " + m_file_url); // 👈 성공 로그
                 } else {
                     m_file_url = url;
+                    Debug.LogError("[VimeoPlayer] Unfurl FAILED. Retaining initial URL. Error: " + www.error); // 👈 실패 로그
                 }
             }
         }
