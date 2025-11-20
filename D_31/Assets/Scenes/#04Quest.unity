@@ -3502,7 +3502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19215687, g: 0.9647059, b: 1, a: 0.7058824}
+  m_Color: {r: 0.631586, g: 0.7716047, b: 0.7830189, a: 0.42745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3556,13 +3556,15 @@ MonoBehaviour:
   targetCollapseScale: 0.3
   ListcontentTMP:
   - "\uC6B0\uC8FC\uC120\uC5D0 \uD0D1\uC2B9\uD560 \uC790\uACA9\uC774 \uC788\uB294\uC9C0
-    \uD655\uC778\uD574 \uBCF4\uC138\uC694.\n\uB2E8\uC11C\uAC00 \uB420 \uB9CC\uD55C
-    \uAE30\uB85D\uC774\uB098 \uAC8C\uC2DC\uBB3C\uC744 \uCC3E\uC544 **\uC2A4\uD06C\uB7A9**
-    \uD574\uC8FC\uC138\uC694. (0/9)\n\uC624\uB298\uC758 \uD0D0\uC0AC\uB97C \uB9C8\uCCE4\uB2E4\uBA74,
-    \uC804\uC6D0\uC744 \uB044\uACE0 \uD558\uB8E8\uB97C \uB9C8\uBB34\uB9AC\uD558\uC138\uC694."
-  - "\uC6B0\uC8FC\uC120\uC744 \uD0C8 \uC218 \uC788\uB294 \uBC29\uBC95\uC744 \uCC3E\uC73C\uC138\uC694.\n\uB2E8\uC11C\uAC00
-    \uB420 \uB9CC\uD55C \uAE30\uB85D\uC774\uB098 \uAC8C\uC2DC\uBB3C\uC744 \uCC3E\uC544
-    **\uC2A4\uD06C\uB7A9** \uD574\uC8FC\uC138\uC694. (0/9)"
+    \uD655\uC778\uD574 \uBCF4\uC138\uC694.\nACTA \uC544\uC774\uCF58\uC744 \uD074\uB9AD\uD574
+    \uB2E8\uC11C\uAC00 \uB420 \uB9CC\uD55C \uAE30\uB85D\uC774\uB098 \uAC8C\uC2DC\uBB3C\uC744
+    \uCC3E\uC544 '\uC2A4\uD06C\uB7A9' \uD574\uC8FC\uC138\uC694. (0/9)\n\uC624\uB298\uC758
+    \uD0D0\uC0AC\uB97C \uB9C8\uCCE4\uB2E4\uBA74, \uC804\uC6D0\uC744 \uB044\uACE0
+    \uD558\uB8E8\uB97C \uB9C8\uBB34\uB9AC\uD558\uC138\uC694."
+  - "\uC6B0\uC8FC\uC120\uC744 \uD0C8 \uC218 \uC788\uB294 \uBC29\uBC95\uC744 \uCC3E\uC73C\uC138\uC694.\nACTA
+    \uC544\uC774\uCF58\uC744 \uD074\uB9AD\uD574 \uB2E8\uC11C\uAC00 \uB420 \uB9CC\uD55C
+    \uAE30\uB85D\uC774\uB098 \uAC8C\uC2DC\uBB3C\uC744 \uCC3E\uC544 '\uC2A4\uD06C\uB7A9'
+    \uD574\uC8FC\uC138\uC694. (0/9)"
 --- !u!225 &1238757453
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3667,7 +3669,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &1345194844
 MonoBehaviour:
@@ -4817,7 +4819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: End Day
+  m_text: "\uC804\uC6D0 \uC885\uB8CC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 206ea243eedd3476ca9c49379b6a0b00, type: 2}
   m_sharedMaterial: {fileID: 9043015475945281693, guid: 206ea243eedd3476ca9c49379b6a0b00, type: 2}

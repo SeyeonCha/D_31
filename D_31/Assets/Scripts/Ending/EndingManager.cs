@@ -9,30 +9,30 @@ public class EndingManager : MonoBehaviour
     public struct ScenarioVisual
     {
         [TextArea(1, 5)]
-        public string sentence; 
-        public Sprite spriteA;  // GameManager.isOrganSold == true (장기 매매 O) 일 때 사용
-        public Sprite spriteB;  // GameManager.isOrganSold == false (장기 매매 X) 일 때 사용
+        public string sentence;
+        public Sprite spriteA; // GameManager.isOrganSold == true (장기 매매 O) 일 때 사용
+        public Sprite spriteB; // GameManager.isOrganSold == false (장기 매매 X) 일 때 사용
     }
 
     [Header("Dependencies")]
-    public FinalManager finalManager; 
+    public FinalManager finalManager;
     public TypingEffect dialogueTypingEffect;
     public Image imageObjectA; // A 이미지 컴포넌트 연결 (true일 때 활성화)
     public Image imageObjectB; // B 이미지 컴포넌트 연결 (false일 때 활성화)
 
     // 비율 유지를 위해 AspectRatioFitter 컴포넌트 참조 추가 (각각 A, B 이미지용)
-    private AspectRatioFitter aspectRatioFitterA; 
-    private AspectRatioFitter aspectRatioFitterB; 
+    private AspectRatioFitter aspectRatioFitterA;
+    private AspectRatioFitter aspectRatioFitterB;
 
     [Header("Scenario Settings")]
-    public ScenarioVisual[] scenarioVisuals; 
+    public ScenarioVisual[] scenarioVisuals;
 
     [Header("Next Action")]
-    public bool isFinalEnding = false; 
+    public bool isFinalEnding = false;
 
     private int sentenceIndex = 0;
     private bool isScenarioActive = false;
-    
+
     // --- Awake에서 AspectRatioFitter 준비 ---
     void Awake()
     {
@@ -70,10 +70,10 @@ public class EndingManager : MonoBehaviour
 
         isScenarioActive = true;
         sentenceIndex = 0;
-        
+
         if (scenarioVisuals.Length > 0)
         {
-            PlayCurrentSentence(); 
+            PlayCurrentSentence();
         }
         else
         {
@@ -88,37 +88,37 @@ public class EndingManager : MonoBehaviour
             HandleSpacebarPress();
         }
     }
-    
+
     // 현재 인덱스의 문장을 출력하고 이미지 변경
     private void PlayCurrentSentence()
     {
         if (sentenceIndex < scenarioVisuals.Length)
         {
             ScenarioVisual currentVisual = scenarioVisuals[sentenceIndex];
-            
+
             // --- 1. 이미지 선택 및 변경 로직 (수정된 부분) ---
-            
+
             // GameManager의 isOrganSold 상태 확인 및 이미지 분기
             bool isOrganSold = GameManager.isOrganSold;
-            
+
             if (isOrganSold)
             {
                 // 장기 매매 O (true) : spriteA를 imageObjectA에 표시하고 B는 비활성화
                 UpdateImage(imageObjectA, currentVisual.spriteA, aspectRatioFitterA, "imageObjectA (OrganSold=True)");
-                UpdateImage(imageObjectB, null, aspectRatioFitterB, "imageObjectB (Inactive)"); 
+                UpdateImage(imageObjectB, null, aspectRatioFitterB, "imageObjectB (Inactive)");
             }
             else
             {
                 // 장기 매매 X (false) : spriteB를 imageObjectB에 표시하고 A는 비활성화
-                UpdateImage(imageObjectA, null, aspectRatioFitterA, "imageObjectA (Inactive)"); 
+                UpdateImage(imageObjectA, null, aspectRatioFitterA, "imageObjectA (Inactive)");
                 UpdateImage(imageObjectB, currentVisual.spriteB, aspectRatioFitterB, "imageObjectB (OrganSold=False)");
             }
-            
+
             // --- 2. 텍스트 재생 로직 ---
             dialogueTypingEffect.StartTyping(currentVisual.sentence);
         }
     }
-    
+
     // 이미지 업데이트를 위한 헬퍼 함수: 스프라이트를 설정하고 비율을 조정하며, null이면 비활성화 처리
     private void UpdateImage(Image imageObject, Sprite sprite, AspectRatioFitter fitter, string debugName)
     {
@@ -128,7 +128,7 @@ public class EndingManager : MonoBehaviour
             {
                 imageObject.sprite = sprite;
                 // 스프라이트가 null이 아니면 이미지 활성화
-                imageObject.gameObject.SetActive(true); 
+                imageObject.gameObject.SetActive(true);
 
                 if (fitter != null)
                 {
@@ -140,7 +140,7 @@ public class EndingManager : MonoBehaviour
             else
             {
                 // 스프라이트가 없으면 이미지 비활성화
-                imageObject.gameObject.SetActive(false); 
+                imageObject.gameObject.SetActive(false);
                 imageObject.sprite = null;
             }
         }
@@ -159,7 +159,6 @@ public class EndingManager : MonoBehaviour
             FinishScenario();
             return;
         }
-        
         string currentSentence = scenarioVisuals[sentenceIndex].sentence;
 
         if (dialogueTypingEffect.IsTyping)
@@ -169,10 +168,9 @@ public class EndingManager : MonoBehaviour
         else
         {
             sentenceIndex++;
-            
             if (sentenceIndex < scenarioVisuals.Length)
             {
-                PlayCurrentSentence(); 
+                PlayCurrentSentence();
             }
             else
             {
@@ -184,7 +182,6 @@ public class EndingManager : MonoBehaviour
     void FinishScenario()
     {
         isScenarioActive = false;
-        
         if (isFinalEnding)
         {
             finalManager.GoToCreditScene();
