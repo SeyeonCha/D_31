@@ -42,6 +42,11 @@ public class ActaManager : MonoBehaviour
             ActivateAlarm(); 
             Debug.Log("Alarm Activated");
         }
+        if (GameManager.DayEnded == 3 && GameManager.isOrganSold == false)
+        {
+            Invoke("ActivateAlarm",30f);
+            Debug.Log("Alarm Activated");
+        }
         
         curation_data = GameManager.Instance.CurationData;
 
@@ -81,7 +86,7 @@ public class ActaManager : MonoBehaviour
     }
     public void After30s_ActivateAlarm()
     {
-        Invoke("ActivateAlarm",10f);
+        Invoke("ActivateAlarm",30f);
         // alarmText.SetActive(true);
         // alarmText.SetActive(true);
     }

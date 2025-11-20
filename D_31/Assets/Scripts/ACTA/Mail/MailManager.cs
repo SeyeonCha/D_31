@@ -39,6 +39,11 @@ public class MailManager : MonoBehaviour
                 BrokerMailTitle_1.SetActive(true);
             }
         }
+        if (GameManager.DayEnded == 3 && !GameManager.isOrganSold)
+        {
+            BrokerMailTitle_2.SetActive(true);
+            this.mode = 10;
+        }
         
         
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-// 브로커 메일 패널에 붙음. 
+// 브로커 메일 패널에 붙음. <-- 데이 14부터 활성화될듯. 
 public class BrokerMailUI : MonoBehaviour
 {
     public TextMeshProUGUI title;
@@ -18,6 +18,7 @@ public class BrokerMailUI : MonoBehaviour
     public GameObject InstructionText;
     public GameObject Button3;
     public GameObject Button2;
+    public GameObject Button22;
 
     private bool IsThinking = false; // 혼잣말 패널 활성화 여분
 
@@ -33,10 +34,13 @@ public class BrokerMailUI : MonoBehaviour
     private Coroutine thinkingRoutine;
 
     [SerializeField]
-    private Sprite bReply1_image; // 클릭 전 스크랩버튼 이미지
+    private Sprite bReply1_image; // 브로커 답글 이미지1
+    [SerializeField]
+    private Sprite bReply1_image2; // 브로커 답장 이미지 2
     public ContentScroller scroller;
 
     public GameObject linkButton ;
+    public GameObject sendButton;
     
 
     // public int mode = 0; // 시나리오 모드
@@ -60,6 +64,10 @@ public class BrokerMailUI : MonoBehaviour
         // actaManager.alarmActivated = false;
         // actaManager.alarmText.SetActive(false);
         if (mailManager.mode == 0)
+        {
+            actaManager.DeactivateAlarm();
+        }
+        if (mailManager.mode == 10)
         {
             actaManager.DeactivateAlarm();
         }
@@ -89,6 +97,19 @@ public class BrokerMailUI : MonoBehaviour
 이제 결정을 내려주십시오.
 
 저희도 오래 기다릴 수는 없습니다.";
+        }
+        else if (mailManager.mode == 10)
+        {
+            title.text = "파격 세일! 신분 상승 단 13억 크레딧";
+            content.text = @"안녕하세요, 3계급 주거자님.
+
+하루하루 살아남기 힘드시죠? 저희 브로커들은 차갑지만, 최소한의 기회를 드립니다.
+
+이번 **파격 세일! 신분 상승 단 13억 크레딧**입니다.
+
+**지금 당장 송금하지 않으면 기회는 사라집니다.**
+
+살고 싶다면, 주저하지 마시고 즉시 송금하십시오.";
         }
     }
     private void Update()
@@ -129,7 +150,7 @@ public class BrokerMailUI : MonoBehaviour
         else if (IsThinking && mailManager.mode == 2 && (clickedButton == 1 || clickedButton == 2 || clickedButton == 3))
         {
             IsThinking = false;
-            mailManager.mode += 1;
+            mailManager.mode += 1; // mode 5
             PlayerThinking.SetActive(false);
 
             string player_r2 = "";
@@ -199,6 +220,55 @@ public class BrokerMailUI : MonoBehaviour
 
             
         }
+        else if (mailManager.mode == 10 && IsThinking && Input.GetKeyDown(KeyCode.Space))
+        {
+            mailManager.mode += 1; // 11
+            // ThinkingText.gameObject.SetActive(false);
+            InstructionText.SetActive(false);
+            ThinkingText.gameObject.SetActive(false);
+            Button2.SetActive(false);
+            Button3.SetActive(false);
+            Button22.SetActive(true); // 보냄/안보냄 버튼
+        }
+        else if (mailManager.mode == 11 && IsThinking && (clickedButton == 4 || clickedButton == 5))
+        {
+            IsThinking = false;
+            mailManager.mode += 1; /// 12
+            PlayerThinking.SetActive(false);
+
+            string player_r1 = "";
+            if (clickedButton == 4) // 할게요
+            {
+                player_r1 = @"알려주셔서 감사합니다. 저는 이 기회를 잡고 싶습니다.
+
+지금 바로 13억 크레딧 송금하겠습니다 — 송금 계좌 정보를 즉시 알려주십시오.";
+            }
+            else if (clickedButton == 5) // 안 할게요
+            {
+                player_r1 = @"제안해 주신 내용과 배려에 감사드립니다. 
+다만 저는 이번 신분 상승 제안은 받아들이지 않기로 결정했습니다.
+
+관심 가져주셔서 감사합니다.";
+            }
+            MyReply1.GetComponent<ReplyHandler>().changeText(player_r1);
+            MyReply1.SetActive(true);
+            scroller.ScrollDownSlightly();
+            Invoke("BrokerReplyOn2", 3f);
+        }
+
+        else if (mailManager.mode == 12 && (clickedButton == 6))
+        {
+            mailManager.mode += 1; // mode 5
+
+            string player_r2 = "";
+            player_r2 = "송금했습니다.";
+            MyReply2.GetComponent<ReplyHandler>().changeText(player_r2);
+            MyReply2.SetActive(true);
+            scroller.ScrollDownSlightly();
+            Invoke("BrokerReplyOn3", 3f);
+            
+            
+        }
         
     }
     public void GetClickedButton(int n) // 생각 패널에 있는 댓글에 onclick버튼 이벤트로 연결
@@ -231,6 +301,23 @@ public class BrokerMailUI : MonoBehaviour
             actaManager.After30s_ActivateAlarm();
             // Invoke("BrokerReplyOn3", 30f);
         }
+        else if (clickedButton == 4)
+        {
+            broker_r = @"아주 좋습니다^^ 아래 계좌로 **13억 크레딧** 송금해 주세요.
+
+- 은행: 새벽은행
+- 계좌번호: 332-486-7891123
+- 예금주: 브로터㈜ 대표 이안
+- 송금금액: 1,300,000,000 크레딧
+
+송금이 확인되는 즉시, 귀하의 **신분을 2계급으로 즉시 상승** 시켜드립니다.
+
+모든 절차는 안전하게 진행되며, 신분 상승 완료 후 **화성 로켓 탑승 자격**도 부여됩니다
+
+**참고:** 처리 시간은 송금 확인 후 최대 6시간 이내입니다. 빠르게 처리해 주시면 절차도 신속히 진행됩니다.";
+            linkButton.SetActive(false);
+            sendButton.SetActive(true);
+        }
         
         if (mailManager.mode == 3)
         {
@@ -251,15 +338,30 @@ public class BrokerMailUI : MonoBehaviour
             scroller.ScrollDownSlightly();
             bReply1.SetActive(true);  
         }
+        else if (mailManager.mode == 12 && (clickedButton == 4))
+        {
+            bReply1.GetComponent<ReplyHandler>().changeText(broker_r);
+            bReply1.GetComponent<Image>().sprite = bReply1_image2;
+            
+            scroller.ScrollDownSlightly();
+            bReply1.SetActive(true);  
+            Debug.Log("debug");
+        }
+        
         
     }
-    // private void BrokerReplyOn3()
-    // {
-    //     actaManager.MailAlarm();  // 알림 켜기
+    private void BrokerReplyOn3()
+    {
+        string broker_r = "확인했습니다. 내일부터는 새로운 신분으로 지내실 수 있습니다";
 
+        bReply2.GetComponent<ReplyHandler>().changeText(broker_r);
+        scroller.ScrollDownSlightly();
+        bReply2.SetActive(true);
+
+        GameManager.isLotteryToBroker = true;
         
 
-    // }
+    }
     
 
     
@@ -280,6 +382,10 @@ public class BrokerMailUI : MonoBehaviour
             else if (mailManager.mode == 1)
             {
                 ThinkingText.text = "어떻게 하지.....?";
+            }
+            else if (mailManager.mode == 10)
+            {
+                ThinkingText.text = "13억 크레딧.. 그래 이젠 로또 당첨금 덕분에 낼 수 있어... \n 돈을 보내는 순간 2계급으로 올라서는거야.. ";
             }
             ThinkingText.gameObject.SetActive(true);
             InstructionText.SetActive(true);
