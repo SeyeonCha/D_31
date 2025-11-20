@@ -14,7 +14,7 @@ public class SceneFlowManager : MonoBehaviour
 
     public GameObject NewsPanel;
 
-    // 🚨 새로운 패널 참조 추가
+    // 🚨 최종 팝업 패널 참조
     [Header("Conditional Flow")]
     [Tooltip("조건 충족 시 뉴스 대화 후 활성화할 최종 팝업 패널")]
     public GameObject FinalPopupPanel;
@@ -27,7 +27,7 @@ public class SceneFlowManager : MonoBehaviour
     public string[] dialogueSentences;
     public string nextSceneName;
 
-    private int currentPhase = 0;
+    private int currentPhase = 0; // 0: 헤드라인, 1: 뉴스 대화, 2: 최종 팝업 대기
     private int sentenceIndex = 0;
 
     private bool isOrganSoldConditionMet;
@@ -37,8 +37,15 @@ public class SceneFlowManager : MonoBehaviour
         HeadlinePanel.SetActive(true);
         NewsPanel.SetActive(false);
 
-         // 🚨 조건 확인 및 저장
-        isOrganSoldConditionMet = (GameManager.isOrganSold == true && GameManager.DayEnded == 4);
+         // FinalPopupPanel은 시작 시 비활성화합니다.
+        if (FinalPopupPanel != null)
+        {
+            FinalPopupPanel.SetActive(false);
+        }
+        
+        // 🚨 조건 확인 및 저장
+        // GameManager는 정적 클래스이므로 직접 접근합니다.
+        isOrganSoldConditionMet = (GameManager.isOrganSold == true && GameManager.DayEnded == 3);
         
         ProceedToHeadlines();
 
@@ -69,7 +76,7 @@ public class SceneFlowManager : MonoBehaviour
 
     void HandleSpacebarPress()
     {
-        if (currentPhase == 0)
+        if (currentPhase == 0) // 헤드라인 단계
         {
             if (headlineTypingEffect.IsTyping)
             {
@@ -80,7 +87,7 @@ public class SceneFlowManager : MonoBehaviour
                 TransitionToNewsReport();
             }
         }
-        else if (currentPhase == 1)
+        else if (currentPhase == 1) // 뉴스 대화 단계
         {
             if (dialogueTypingEffect.IsTyping)
             {
@@ -108,6 +115,11 @@ public class SceneFlowManager : MonoBehaviour
                     }
                 }
             }
+        }
+        else if (currentPhase == 2) // 🚨 🚨 🚨 최종 팝업 대기 단계 (로직 추가) 🚨 🚨 🚨
+        {
+            // 최종 패널이 활성화된 상태에서 스페이스바를 누르면 다음 씬으로 이동합니다.
+            SceneManager.LoadScene(nextSceneName);
         }
     }
 

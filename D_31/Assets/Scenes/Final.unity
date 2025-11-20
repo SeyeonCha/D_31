@@ -185,23 +185,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalManager: {fileID: 347761979}
   dialogueTypingEffect: {fileID: 2026846628}
-  imageObject: {fileID: 1581410610}
+  imageObjectA: {fileID: 1581410610}
+  imageObjectB: {fileID: 1581410610}
   scenarioVisuals:
-  - sentence: 
-    sprite: {fileID: 21300000, guid: 28ba171a196d14d22a15357d653f8f0b, type: 3}
+  - sentence: "\uC774\uC81C \uC815\uB9D0 \uB5A0\uB098\uB294\uAC74\uAC00..."
+    spriteA: {fileID: 21300000, guid: 28ba171a196d14d22a15357d653f8f0b, type: 3}
+    spriteB: {fileID: 21300000, guid: 6fe93dac0c750485d9bf60799054d941, type: 3}
   - sentence: "\uC800\uAE30\uC5D0 \uC788\uB294 \uC0AC\uB78C\uB4E4\uC740 1\uB144 \uB4A4\uC5D0
       \uC8FD\uACA0\uC9C0."
-    sprite: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteA: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteB: {fileID: 21300000, guid: 4769c95d46ff4471eb1d25bfb8a01579, type: 3}
   - sentence: "\uD558\uC9C0\uB9CC \uB098\uB294 \uB05D\uAE4C\uC9C0 \uC0B4\uC544\uB0A8\uC744\uAC70\uC57C."
-    sprite: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteA: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteB: {fileID: 21300000, guid: 4769c95d46ff4471eb1d25bfb8a01579, type: 3}
   - sentence: "[\uC2DC\uC2A4\uD15C]\n\"\uCE74\uC6B4\uD2B8 \uB2E4\uC6B4\uC744 \uC2DC\uC791\uD569\uB2C8\uB2E4.\""
-    sprite: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteA: {fileID: 21300000, guid: 905a6cc94f4454c3cb39198c7ded1ade, type: 3}
+    spriteB: {fileID: 21300000, guid: 4769c95d46ff4471eb1d25bfb8a01579, type: 3}
   - sentence: "[\uC2DC\uC2A4\uD15C]\n\"10, 9, 8, 7, 6\u2026\""
-    sprite: {fileID: 21300000, guid: 2c729497e88ae4bb0b62fe8f2107ea1b, type: 3}
+    spriteA: {fileID: 21300000, guid: 2c729497e88ae4bb0b62fe8f2107ea1b, type: 3}
+    spriteB: {fileID: 21300000, guid: 60508c1f8897a41d196e768efd8f4087, type: 3}
   - sentence: '!?!?!?'
-    sprite: {fileID: 21300000, guid: 2c729497e88ae4bb0b62fe8f2107ea1b, type: 3}
+    spriteA: {fileID: 21300000, guid: 2c729497e88ae4bb0b62fe8f2107ea1b, type: 3}
+    spriteB: {fileID: 21300000, guid: 60508c1f8897a41d196e768efd8f4087, type: 3}
   - sentence: "\uD391 -"
-    sprite: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
+    spriteA: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
+    spriteB: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
   isFinalEnding: 0
 --- !u!1 &48557310
 GameObject:
@@ -1794,12 +1802,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalManager: {fileID: 347761979}
   dialogueTypingEffect: {fileID: 144306864}
-  imageObject: {fileID: 2079742306}
+  imageObjectA: {fileID: 2079742306}
+  imageObjectB: {fileID: 2079742306}
   scenarioVisuals:
   - sentence: "<???>\n\"\uB4DC\uB514\uC5B4...\""
-    sprite: {fileID: 21300000, guid: 4e3c5d3772757494baf7eb07d403de58, type: 3}
-  - sentence: "<???>\n\"\uB9C8\uBB34\uB9AC\uB418\uC5C8\uAD70.\""
-    sprite: {fileID: 21300000, guid: 4e3c5d3772757494baf7eb07d403de58, type: 3}
+    spriteA: {fileID: 21300000, guid: 4e3c5d3772757494baf7eb07d403de58, type: 3}
+    spriteB: {fileID: 21300000, guid: 4e3c5d3772757494baf7eb07d403de58, type: 3}
   isFinalEnding: 1
 --- !u!1 &1041809421
 GameObject:
@@ -1926,7 +1934,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1099547345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2830,19 +2838,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalManager: {fileID: 347761979}
   dialogueTypingEffect: {fileID: 1358602756}
-  imageObject: {fileID: 230764575}
+  imageObjectA: {fileID: 230764575}
+  imageObjectB: {fileID: 230764575}
   scenarioVisuals:
   - sentence: "\uB098\uB294 \uC6B0\uC8FC\uC120\uC5D0 \uD0C0\uC9C0 \uBABB\uD588\uB2E4."
-    sprite: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteA: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteB: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
   - sentence: "\uD558\uC9C0\uB9CC \uB0A8\uC740 1\uB144\uC744 \uD6C4\uD68C\uC5C6\uC774
       \uD589\uBCF5\uD558\uAC8C \uC0B4 \uAC83\uC774\uB2E4."
-    sprite: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteA: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteB: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
   - sentence: "<\uC870\uCE74>\n\"\uC5B4?\""
-    sprite: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteA: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
+    spriteB: {fileID: 21300000, guid: 06565f8ff215e439090330c8c71a03e1, type: 3}
   - sentence: "<\uC870\uCE74>\n\u201D\uC0BC\uCD0C, \uC800\uAC70 \uBB50\uC57C?\u201D"
-    sprite: {fileID: 21300000, guid: 8c74be0e976c54c828578e43b4a327e2, type: 3}
+    spriteA: {fileID: 21300000, guid: 8c74be0e976c54c828578e43b4a327e2, type: 3}
+    spriteB: {fileID: 21300000, guid: 8c74be0e976c54c828578e43b4a327e2, type: 3}
   - sentence: "\uD391 -"
-    sprite: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
+    spriteA: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
+    spriteB: {fileID: 21300000, guid: 6dacf75fa18ae4730972578b4d42fc7d, type: 3}
   isFinalEnding: 0
 --- !u!1 &1532663820
 GameObject:

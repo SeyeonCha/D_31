@@ -1082,7 +1082,7 @@ MonoBehaviour:
   headlineTypingEffect: {fileID: 414183502}
   headlineSentence: 
   NewsPanel: {fileID: 2099305344}
-  FinalPopupPanel: {fileID: 0}
+  FinalPopupPanel: {fileID: 1336930820}
   newsContent: {fileID: 193216114}
   anchorAnimator: {fileID: 2099305348}
   dialogueTypingEffect: {fileID: 193216118}

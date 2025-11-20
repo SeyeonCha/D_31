@@ -10,16 +10,19 @@ public class EndingManager : MonoBehaviour
     {
         [TextArea(1, 5)]
         public string sentence; 
-        public Sprite sprite;   
+        public Sprite spriteA;  // GameManager.isOrganSold == true (장기 매매 O) 일 때 사용
+        public Sprite spriteB;  // GameManager.isOrganSold == false (장기 매매 X) 일 때 사용
     }
 
     [Header("Dependencies")]
     public FinalManager finalManager; 
     public TypingEffect dialogueTypingEffect;
-    public Image imageObject; // 스프라이트를 바꿀 Image 컴포넌트 연결
+    public Image imageObjectA; // A 이미지 컴포넌트 연결 (true일 때 활성화)
+    public Image imageObjectB; // B 이미지 컴포넌트 연결 (false일 때 활성화)
 
-    // 비율 유지를 위해 AspectRatioFitter 컴포넌트 참조 추가
-    private AspectRatioFitter aspectRatioFitter; 
+    // 비율 유지를 위해 AspectRatioFitter 컴포넌트 참조 추가 (각각 A, B 이미지용)
+    private AspectRatioFitter aspectRatioFitterA; 
+    private AspectRatioFitter aspectRatioFitterB; 
 
     [Header("Scenario Settings")]
     public ScenarioVisual[] scenarioVisuals; 
@@ -30,8 +33,17 @@ public class EndingManager : MonoBehaviour
     private int sentenceIndex = 0;
     private bool isScenarioActive = false;
     
-    // --- Awake 또는 Start에서 AspectRatioFitter 준비 ---
+    // --- Awake에서 AspectRatioFitter 준비 ---
     void Awake()
+    {
+        // A 이미지 AspectRatioFitter 준비
+        SetupAspectRatioFitter(imageObjectA, ref aspectRatioFitterA);
+        // B 이미지 AspectRatioFitter 준비
+        SetupAspectRatioFitter(imageObjectB, ref aspectRatioFitterB);
+    }
+
+    // AspectRatioFitter 설정을 위한 헬퍼 함수
+    private void SetupAspectRatioFitter(Image imageObject, ref AspectRatioFitter aspectRatioFitter)
     {
         if (imageObject != null)
         {
@@ -42,7 +54,7 @@ public class EndingManager : MonoBehaviour
                 aspectRatioFitter = imageObject.gameObject.AddComponent<AspectRatioFitter>();
             }
 
-            // Aspect Ratio Fitter 모드를 'Fit In Parent'로 설정하는 것이 일반적
+            // Aspect Ratio Fitter 모드를 'Fit In Parent'로 설정
             aspectRatioFitter.aspectMode = AspectRatioFitter.AspectMode.FitInParent;
         }
     }
@@ -84,32 +96,70 @@ public class EndingManager : MonoBehaviour
         {
             ScenarioVisual currentVisual = scenarioVisuals[sentenceIndex];
             
-            // 1. 이미지 변경 및 비율 설정 로직
-            if (imageObject != null && currentVisual.sprite != null)
+            // --- 1. 이미지 선택 및 변경 로직 (수정된 부분) ---
+            
+            // GameManager의 isOrganSold 상태 확인 및 이미지 분기
+            bool isOrganSold = GameManager.isOrganSold;
+            
+            if (isOrganSold)
             {
-                imageObject.sprite = currentVisual.sprite;
-                
-                // ✅ 수정된 부분: AspectRatioFitter를 사용하여 비율 유지
-                if (aspectRatioFitter != null)
-                {
-                    // 스프라이트의 가로/세로 비율 계산 및 적용
-                    float aspectRatio = currentVisual.sprite.rect.width / currentVisual.sprite.rect.height;
-                    aspectRatioFitter.aspectRatio = aspectRatio;
-                }
+                // 장기 매매 O (true) : spriteA를 imageObjectA에 표시하고 B는 비활성화
+                UpdateImage(imageObjectA, currentVisual.spriteA, aspectRatioFitterA, "imageObjectA (OrganSold=True)");
+                UpdateImage(imageObjectB, null, aspectRatioFitterB, "imageObjectB (Inactive)"); 
             }
-            else if (imageObject == null)
+            else
             {
-                Debug.LogWarning(gameObject.name + ": imageObject 필드에 Image 컴포넌트가 연결되지 않았습니다.");
+                // 장기 매매 X (false) : spriteB를 imageObjectB에 표시하고 A는 비활성화
+                UpdateImage(imageObjectA, null, aspectRatioFitterA, "imageObjectA (Inactive)"); 
+                UpdateImage(imageObjectB, currentVisual.spriteB, aspectRatioFitterB, "imageObjectB (OrganSold=False)");
             }
             
-            // 2. 텍스트 재생 로직
+            // --- 2. 텍스트 재생 로직 ---
             dialogueTypingEffect.StartTyping(currentVisual.sentence);
         }
     }
+    
+    // 이미지 업데이트를 위한 헬퍼 함수: 스프라이트를 설정하고 비율을 조정하며, null이면 비활성화 처리
+    private void UpdateImage(Image imageObject, Sprite sprite, AspectRatioFitter fitter, string debugName)
+    {
+        if (imageObject != null)
+        {
+            if (sprite != null)
+            {
+                imageObject.sprite = sprite;
+                // 스프라이트가 null이 아니면 이미지 활성화
+                imageObject.gameObject.SetActive(true); 
+
+                if (fitter != null)
+                {
+                    // 스프라이트의 가로/세로 비율 계산 및 적용
+                    float aspectRatio = sprite.rect.width / sprite.rect.height;
+                    fitter.aspectRatio = aspectRatio;
+                }
+            }
+            else
+            {
+                // 스프라이트가 없으면 이미지 비활성화
+                imageObject.gameObject.SetActive(false); 
+                imageObject.sprite = null;
+            }
+        }
+        else
+        {
+            Debug.LogWarning(gameObject.name + ": " + debugName + " 필드에 Image 컴포넌트가 연결되지 않았습니다.");
+        }
+    }
+
 
     // HandleSpacebarPress와 FinishScenario는 이전과 동일
     void HandleSpacebarPress()
     {
+        if (sentenceIndex >= scenarioVisuals.Length)
+        {
+            FinishScenario();
+            return;
+        }
+        
         string currentSentence = scenarioVisuals[sentenceIndex].sentence;
 
         if (dialogueTypingEffect.IsTyping)
