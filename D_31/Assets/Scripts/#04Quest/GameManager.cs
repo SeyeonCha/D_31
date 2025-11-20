@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
  
     public static bool isOrganSold = false; // 장기 매매 여부
     public static bool isLotteryToBroker = false; // 로또 당첨금을 브로커에게 줬는지 여부
+    public static bool isMailSent = false;
 
 
     public NewsDataLoader newsDataLoader;

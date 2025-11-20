@@ -37,7 +37,7 @@ public class ActaManager : MonoBehaviour
     private void Awake()
     {
         // 메일 알람 키는 함수 (데이14는 악타 키자마자 바로 메일답장 있음)
-        if (GameManager.DayEnded == 2)
+        if (GameManager.DayEnded == 2 && GameManager.isMailSent)
         {
             ActivateAlarm(); 
             Debug.Log("Alarm Activated");
@@ -70,7 +70,7 @@ public class ActaManager : MonoBehaviour
     private void Update()
     {
         
-        if (PlayerPrefs.GetInt("Total_Count",0) >= 9) // 스크랩 수 충족시
+        if (PlayerPrefs.GetInt("Total_Count",0) >= 4) // 스크랩 수 충족시
         {
             // Debug.Log("퀘스트 달성!! 다음날 게시물 계산 실행");
             // 퀘스트 상태 : 달성!
@@ -104,5 +104,9 @@ public class ActaManager : MonoBehaviour
     public void OrganSold()
     {
         GameManager.isOrganSold = true;
+    }
+    public void MailSent()
+    {
+        GameManager.isMailSent = true;
     }
 }

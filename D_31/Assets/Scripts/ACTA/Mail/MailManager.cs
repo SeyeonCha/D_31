@@ -27,7 +27,10 @@ public class MailManager : MonoBehaviour
     public void OnEnable()
     {
         Debug.Log($"Mail Manager Awaked : {mode}");
-        if (GameManager.DayEnded == 2)
+
+        // BrokerMailTitle_0.SetActive(true);
+
+        if (GameManager.DayEnded == 2 && GameManager.isMailSent)
         {
             if (mode == 0) 
             {

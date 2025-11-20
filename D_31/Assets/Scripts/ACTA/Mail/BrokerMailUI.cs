@@ -39,8 +39,10 @@ public class BrokerMailUI : MonoBehaviour
     private Sprite bReply1_image2; // 브로커 답장 이미지 2
     public ContentScroller scroller;
 
-    public GameObject linkButton ;
+    // public GameObject linkButton ;
     public GameObject sendButton;
+    public GameObject returnInstruction;
+    public GameObject returnInstruction2;
     
 
     // public int mode = 0; // 시나리오 모드
@@ -58,7 +60,16 @@ public class BrokerMailUI : MonoBehaviour
         // 7초 뒤에 혼잣말 패널 활성화 코루틴
         if (thinkingRoutine != null) StopCoroutine(thinkingRoutine);
         StopAllCoroutines();
-        thinkingRoutine = StartCoroutine(StartThinkingSequence(7f));
+        float time;
+        if (mailManager.mode == 3) 
+        {
+            time = 6f;
+        }
+        else
+        {
+            time = 13f;
+        }
+        thinkingRoutine = StartCoroutine(StartThinkingSequence(time));
 
         
         // actaManager.alarmActivated = false;
@@ -80,8 +91,8 @@ public class BrokerMailUI : MonoBehaviour
             title.text = "요청하신 건에 대한 답변";
             content.text = @"사정은 이해했습니다.
 
-화성행 로켓 탑승을 위한 신분 승급은 공식적으로는 불가능한 일이지만
-그 외의 방법이 전혀 없는 것은 아닙니다.
+화성행 로켓 탑승을 위한 2계급으로의 신분 승급은 공식적으로는 불가능한 일이지만
+저희를 통한다면 얼마든지 가능합니다:)
 
 다만, 이 과정에는 총 18억 크레딧의 자금이 필요합니다.
 
@@ -131,8 +142,8 @@ public class BrokerMailUI : MonoBehaviour
             // actaManager.GetComponent<ScrollToTarget>().ScrollToTargetObject();
 
             
-            Invoke("BrokerReplyOn1", 3f);
-            thinkingRoutine = StartCoroutine(StartThinkingSequence(8f));
+            Invoke("BrokerReplyOn1", 6f);
+            thinkingRoutine = StartCoroutine(StartThinkingSequence(20f));
         }
         else if (IsThinking && mailManager.mode == 1 && Input.GetKeyDown(KeyCode.Space))
         {
@@ -285,20 +296,49 @@ public class BrokerMailUI : MonoBehaviour
     }
     private void BrokerReplyOn2()
     {
+        // 브로커 메시지 설정
         string broker_r = "";
         if (clickedButton == 1) // 할게요
         {
             broker_r = "http://www.onlyicouldlive.com/";
-            linkButton.SetActive(true);
+            if (mailManager.mode == 3) 
+            {
+                bReply2.GetComponent<ReplyHandler>().ActivateButton(true);
+                
+            }
+            else if (mailManager.mode == 5)
+            {
+                bReply1.GetComponent<ReplyHandler>().ActivateButton(true);
+                // bReply1.GetComponent<Button>().enabled = true;
+                
+            }
+            // linkButton.SetActive(true);
         }
-        // else if (clickedButton == 2) // 안 할게요
-        // {
-        //     broker_r = "아쉽네요. 그러시죠.";
-        // }
+        else if (clickedButton == 2) // 안 할게요
+        {
+            broker_r = "아쉽네요. 그러시죠.";
+            if (mailManager.mode == 3) 
+            {
+                bReply2.GetComponent<ReplyHandler>().ActivateButton(false);
+                // bReply2.GetComponent<Button>().enabled = false;
+                
+                returnInstruction.SetActive(true);
+            }
+            else if (mailManager.mode == 5)
+            {
+                bReply1.GetComponent<ReplyHandler>().ActivateButton(false);
+                // bReply1.GetComponent<Button>().enabled = false;
+                
+                returnInstruction2.SetActive(true);
+            }
+            
+        }
         else if (clickedButton == 3) // 고민
         {
             broker_r = "시간이 많지 않습니다. 빠른 판단 내리시기 바랍니다.";
             actaManager.After30s_ActivateAlarm();
+            bReply2.GetComponent<ReplyHandler>().ActivateButton(false);
+            returnInstruction.SetActive(true);
             // Invoke("BrokerReplyOn3", 30f);
         }
         else if (clickedButton == 4)
@@ -315,8 +355,9 @@ public class BrokerMailUI : MonoBehaviour
 모든 절차는 안전하게 진행되며, 신분 상승 완료 후 **화성 로켓 탑승 자격**도 부여됩니다
 
 **참고:** 처리 시간은 송금 확인 후 최대 6시간 이내입니다. 빠르게 처리해 주시면 절차도 신속히 진행됩니다.";
-            linkButton.SetActive(false);
+            // linkButton.SetActive(false);
             sendButton.SetActive(true);
+            bReply1.GetComponent<ReplyHandler>().ActivateButton(false);
         }
         
         if (mailManager.mode == 3)

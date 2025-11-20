@@ -43,7 +43,7 @@ public class RecoSystem : MonoBehaviour
         
         List<List<int>> CurationData = new List<List<int>>();
 
-        total_scrap_count = PlayerPrefs.GetInt("Total_Count",1); // 9여야 정상임.
+        total_scrap_count = PlayerPrefs.GetInt("Total_Count",1); // 4 여야 정상임.
         k = TOTAL_POSTS/total_scrap_count; // 추천 시스템 스크랩 하나도 안하면 오류남. 
         
         // 1. 클래스별 다음 날 게시글 수 계산  ---> nextDayClassPosts : List<int>
