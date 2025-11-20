@@ -10,6 +10,7 @@ public class QuestAnimation : MonoBehaviour
     public RectTransform titleTextRect; // 타이틀 텍스트의 RectTransform 컴포넌트
     public TextMeshProUGUI titleTMP; // 타이틀 텍스트
     public RectTransform contentTextRect; // 내용 텍스트의 RectTransform
+    
     public TextMeshProUGUI contentTMP; // 콘텐츠 텍스트
     public RectTransform collapseTextRect; // 내용 텍스트의 RectTransform
     public TextMeshProUGUI collapseTMP; // 축소 안내 텍스트
@@ -31,6 +32,8 @@ public class QuestAnimation : MonoBehaviour
 
     // 퀘스트 데이별로 넘기기 위한 코드
     // 인스펙터 창에서 퀘스트 내용 수정 가능
+    [Header("Quest Text")]
+    [TextArea(3, 5)]
     public string[] ListcontentTMP;
 
 

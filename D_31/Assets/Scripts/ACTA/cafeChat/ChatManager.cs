@@ -48,16 +48,20 @@ public class ChatManager : MonoBehaviour
     
     void Awake()
     {
-        // 팝업 패널은 비활성화 상태로 시작합니다.
-        if (dialoguePanel != null)
-        {
-            dialoguePanel.SetActive(false);
-        }
+        // // 팝업 패널은 비활성화 상태로 시작합니다.
+        // if (dialoguePanel != null)
+        // {
+        //     dialoguePanel.SetActive(false);
+        // }
 
         if (targetImage == null)
         {
             targetImage = GetComponent<Image>();
         }
+
+        dialoguePanel.SetActive(true);
+
+        StartChat();
     }
 
     // Update 함수를 사용하여 스페이스바 입력을 감지하고 이미지 시퀀스를 진행합니다.
@@ -85,9 +89,6 @@ public class ChatManager : MonoBehaviour
             Debug.LogError("[ChatManager] Essential Dialogue components (Panel, System, Quest Text 1 or 2) are not assigned.");
             yield break;
         }
-
-        // 1. 대화 패널 활성화
-        dialoguePanel.SetActive(true);
 
         // 2. DialogueSystem에게 대화 시작을 요청하고 완료될 때까지 기다립니다.
         yield return dialogueSystem.StartDialogue(scenarioSentences); 
@@ -197,7 +198,7 @@ public class ChatManager : MonoBehaviour
     private void EndImageSequence()
     {
         isImageSequenceActive = false;
-        targetImage.gameObject.SetActive(false);
+        //targetImage.gameObject.SetActive(false);
         
         // 2차 퀘스트 텍스트 업데이트 (questText2 사용)
         if (questText2 != null)

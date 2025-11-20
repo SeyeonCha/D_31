@@ -15,6 +15,9 @@ public class CafeManager : MonoBehaviour
     private int classId;
     private int clicked;
 
+    // 🚨 추가됨: 현재 로드된 포스트의 uniqueId를 저장하고 노출합니다.
+    public int CurrentUniqueId { get; private set; } = -1;
+
     // =========================================================
     // 시나리오 관련 필드
     // =========================================================
@@ -35,6 +38,7 @@ public class CafeManager : MonoBehaviour
     [TextArea(4, 15)]
     [Tooltip("대화 완료 후 QuestText에 표시될 메시지")]
     public string questUpdateMessage; 
+
     // =========================================================
 
     public TextMeshProUGUI title;
@@ -50,11 +54,8 @@ public class CafeManager : MonoBehaviour
 
     private List<List<TextMeshProUGUI>> comments;
 
-
     // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
     public RectTransform cafePanelRectTransform;
-
-
 
     void Awake()
     {
@@ -72,8 +73,13 @@ public class CafeManager : MonoBehaviour
         // 데이터의 정보 받아오기
         sourceTitle = stitle;
 
+        if (sourceTitle == null || sourceTitle.data == null) return;
+
         classId = sourceTitle.data.classId;
         clicked = sourceTitle.data.isScrapped;
+
+        // 🚨 추가됨: 현재 로드된 uniqueId를 저장합니다.
+        CurrentUniqueId = sourceTitle.data.uniqueId;
 
         // =========================================================
         // 시나리오 시작 조건 확인 (DayEnded = 1, uniqueId = 6)
@@ -97,7 +103,6 @@ public class CafeManager : MonoBehaviour
             comments[i][0].text = sourceTitle.data.comments[i][0];
             comments[i][1].text = sourceTitle.data.comments[i][1];
         }
-
 
         // 👇 길이 반영 딜레이 문제 때문에 아래 코드 추가됨
         if (cafePanelRectTransform != null)
