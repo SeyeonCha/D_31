@@ -67,7 +67,7 @@ public class BrokerMailUI : MonoBehaviour
         }
         else
         {
-            time = 13f;
+            time = 11f;
         }
         thinkingRoutine = StartCoroutine(StartThinkingSequence(time));
 

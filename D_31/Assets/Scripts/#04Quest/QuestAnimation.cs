@@ -48,8 +48,8 @@ public class QuestAnimation : MonoBehaviour
         // 게임 시작 시 첫 번째 대화 표시
         if (ListcontentTMP.Length > 0)
         {
-            //contentTMP.text = ListcontentTMP[GameManager.Instance.DayEnded];
-            contentTMP.text = ListcontentTMP[0]; // 👈 임시 코드
+            contentTMP.text = ListcontentTMP[GameManager.DayEnded];
+            // contentTMP.text = ListcontentTMP[0]; // 👈 임시 코드
         }
                 
         contentTMP.alpha = 0f; // 시작할 때 내용 숨기기

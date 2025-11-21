@@ -12,29 +12,29 @@ public class TitleButtonUpdator : MonoBehaviour
     // 뉴스 Title
     public List<NewsTitle> B_Titles;
     public List<NewsTitle> N_Titles;
-    private List<int> BN_idxs = new List<int> {0, 0, 0, 0, 0};
+    // private List<int> BN_idxs = new List<int> {0, 0, 0, 0, 0};
 
     // 카페 Title
     public List<CafeTitle> Cafe_Titles;
-    private List<int> Cafe_idxs = new List<int> {0, 0, 0, 0, 0};
+    // private List<int> Cafe_idxs = new List<int> {0, 0, 0, 0, 0};
 
     // 카페 페이지 안의 제목 (7개)
     public List<CafeTitle> Cafe_List_Titles;
 
     // 커뮤 Title
     public List<ComuTitle> Comu_Titles;
-    private List<int> Comu_idxs = new List<int> {0, 0, 0, 0, 0};
+    // private List<int> Comu_idxs = new List<int> {0, 0, 0, 0, 0};
 
     // 커뮤 페이지 안의 Title (16개)
     public List<ComuTitle> Comu_List_Titles;
 
     // 논문 Title
     public List<PaperTitle> Paper_Titles;
-    private List<int> Paper_idxs = new List<int> {0, 0, 0, 0, 0};
+    // private List<int> Paper_idxs = new List<int> {0, 0, 0, 0, 0};
 
     // 릴스 Title
     public List<ReelsTitle> R_Titles;
-    private List<int> R_idxs = new List<int> {0, 0, 0, 0, 0};
+    // private List<int> R_idxs = new List<int> {0, 0, 0, 0, 0};
 
     private int targetIndex;
     private int targetClass;
@@ -78,6 +78,14 @@ public class TitleButtonUpdator : MonoBehaviour
 
     public void UpdateTitles()
     {
+        List<int> BN_idxs = new List<int> {0, 0, 0, 0, 0};
+        List<int> Cafe_idxs = new List<int> {0, 0, 0, 0, 0};
+        List<int> Comu_idxs = new List<int> {0, 0, 0, 0, 0};
+        List<int> Paper_idxs = new List<int> {0, 0, 0, 0, 0};
+        List<int> R_idxs = new List<int> {0, 0, 0, 0, 0};
+
+
+        
         // Breaking 제목 show
         B_curationData = actaManager.curation_data[0];
         Debug.Log($"Breaking 큐레이션해야되는 클래스 개수(4개?) : {B_curationData.Count}");

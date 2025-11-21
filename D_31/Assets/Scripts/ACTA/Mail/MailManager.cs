@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class MailManager : MonoBehaviour
@@ -20,6 +21,13 @@ public class MailManager : MonoBehaviour
     public BrokerMailUI brokerMail;
     public int mode = 0;
 
+    public Button sendButton;
+
+    // public void ActivateButton(bool b)
+    // {
+    //     sendButton.enabled = b;
+    // }
+
 
     // public BrokerMailUI brokerMail;
 
@@ -29,6 +37,14 @@ public class MailManager : MonoBehaviour
         Debug.Log($"Mail Manager Awaked : {mode}");
 
         // BrokerMailTitle_0.SetActive(true);
+        if (GameManager.DayEnded == 1)
+        {
+            sendButton.enabled = true;
+        }
+        else{
+            sendButton.enabled = false;
+        }
+
 
         if (GameManager.DayEnded == 2 && GameManager.isMailSent)
         {
