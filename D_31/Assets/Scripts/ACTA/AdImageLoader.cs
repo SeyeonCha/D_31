@@ -100,7 +100,7 @@ public class AdImageLoader : MonoBehaviour
         popupPanel.SetActive(false);
 
         // 5초에서 15초 사이의 랜덤 시간을 설정
-        float randomDelay = Random.Range(10f, 40f);
+        float randomDelay = Random.Range(90f, 130f);
         
         // 랜덤 시간 후에 ShowPopupAd 함수를 호출
         Invoke("ShowPopupAd", randomDelay);

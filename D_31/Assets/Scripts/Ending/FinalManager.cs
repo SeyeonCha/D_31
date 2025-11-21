@@ -80,10 +80,10 @@ public class FinalManager : MonoBehaviour
             isYesSelected = true;
             
             // 경고 텍스트 숨기기 (혹시 이전에 표시되었다면)
-            if (CannotRideSpaceShipText != null)
-            {
-                CannotRideSpaceShipText.text = "";
-            }
+            // if (CannotRideSpaceShipText != null)
+            // {
+            //     CannotRideSpaceShipText.text = "";
+            // }
             
             ProceedToHeadlines();
         }

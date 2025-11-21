@@ -101,6 +101,18 @@ public class EndingManager : MonoBehaviour
             // GameManager의 isOrganSold 상태 확인 및 이미지 분기
             bool isOrganSold = GameManager.isOrganSold;
 
+            // --- 디버그 로그 추가 시작 ---
+            Debug.Log($"[Ending {gameObject.name}] Phase: {sentenceIndex}, isOrganSold: {isOrganSold}");
+            if (isOrganSold)
+            {
+                Debug.Log($"SpriteA (Used): {currentVisual.spriteA}");
+            }
+            else
+            {
+                Debug.Log($"SpriteB (Used): {currentVisual.spriteB}");
+            }
+            // --- 디버그 로그 추가 끝 ---
+
             if (isOrganSold)
             {
                 // 장기 매매 O (true) : spriteA를 imageObjectA에 표시하고 B는 비활성화
@@ -130,6 +142,9 @@ public class EndingManager : MonoBehaviour
                 // 스프라이트가 null이 아니면 이미지 활성화
                 imageObject.gameObject.SetActive(true);
 
+                // --- 디버그 로그 추가 (활성화 직후 상태 확인) ---
+                Debug.Log($"[DEBUG] {debugName} -> Sprite Set, GameObject Active: {imageObject.gameObject.activeSelf}");
+
                 if (fitter != null)
                 {
                     // 스프라이트의 가로/세로 비율 계산 및 적용
@@ -137,12 +152,12 @@ public class EndingManager : MonoBehaviour
                     fitter.aspectRatio = aspectRatio;
                 }
             }
-            else
-            {
-                // 스프라이트가 없으면 이미지 비활성화
-                imageObject.gameObject.SetActive(false);
-                imageObject.sprite = null;
-            }
+            // else
+            // {
+            //     // 스프라이트가 없으면 이미지 비활성화
+            //     //imageObject.gameObject.SetActive(false);
+            //     //imageObject.sprite = null;
+            // }
         }
         else
         {
