@@ -6,6 +6,7 @@ public class FinalManager : MonoBehaviour
 {
     // --- 퀘스트 선택 (Start Panel) ---
     public GameObject LastQuestPanel;
+    public TextMeshProUGUI CannotRideSpaceShipText;
     
     // --- 1. 헤드라인 (1_Headlines) ---
     public GameObject HeadlinePanel;
@@ -43,6 +44,11 @@ public class FinalManager : MonoBehaviour
         
         LastQuestPanel.SetActive(true);
         currentPhase = -1; // 초기 상태: 퀘스트 선택 대기
+
+        if (CannotRideSpaceShipText != null)
+        {
+            CannotRideSpaceShipText.text = "";
+        }
     }
 
     void Update()
@@ -58,16 +64,51 @@ public class FinalManager : MonoBehaviour
     }
 
     // --- LastQuestPanel 버튼 이벤트 핸들러 ---
-    // 이 메서드를 Unity Inspector에서 Yes 버튼의 OnClick() 이벤트에 연결하세요.
     public void OnYesButtonClicked()
     {
-        isYesSelected = true;
-        ProceedToHeadlines();
-    }
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager 인스턴스를 찾을 수 없습니다.");
+            return;
+        }
 
-    // 이 메서드를 Unity Inspector에서 No 버튼의 OnClick() 이벤트에 연결하세요.
+        bool isConditionMet = GameManager.isLotteryToBroker || GameManager.isOrganSold;
+
+        if (isConditionMet)
+        {
+            // 조건 충족: 엔딩 흐름 시작
+            isYesSelected = true;
+            
+            // 경고 텍스트 숨기기 (혹시 이전에 표시되었다면)
+            if (CannotRideSpaceShipText != null)
+            {
+                CannotRideSpaceShipText.text = "";
+            }
+            
+            ProceedToHeadlines();
+        }
+        else
+        {
+            // 조건 미충족: 경고 메시지 표시
+            if (CannotRideSpaceShipText != null)
+            {
+                CannotRideSpaceShipText.text = "당신은 우주선을 탈 수 없습니다.";
+                Debug.Log("우주선 탑승 불가: 조건 미충족.");
+                // LastQuestPanel은 활성 상태로 유지
+            }
+            else
+            {
+                Debug.LogError("CannotRideSpaceShipText가 Inspector에 할당되지 않았습니다.");
+            }
+        }
+    }
     public void OnNoButtonClicked()
     {
+        // if (CannotRideSpaceShipText != null)
+        // {
+        //     CannotRideSpaceShipText.text = "";
+        // }
+
         isYesSelected = false;
         ProceedToHeadlines();
     }
