@@ -63,11 +63,11 @@ public class BrokerMailUI : MonoBehaviour
         float time;
         if (mailManager.mode == 3) 
         {
-            time = 6f;
+            time = 4f;
         }
         else
         {
-            time = 11f;
+            time = 7f;
         }
         thinkingRoutine = StartCoroutine(StartThinkingSequence(time));
 
@@ -142,7 +142,7 @@ public class BrokerMailUI : MonoBehaviour
             // actaManager.GetComponent<ScrollToTarget>().ScrollToTargetObject();
 
             
-            Invoke("BrokerReplyOn1", 6f);
+            Invoke("BrokerReplyOn1", 4f);
             thinkingRoutine = StartCoroutine(StartThinkingSequence(20f));
         }
         else if (IsThinking && mailManager.mode == 1 && Input.GetKeyDown(KeyCode.Space))
@@ -180,7 +180,7 @@ public class BrokerMailUI : MonoBehaviour
             MyReply2.GetComponent<ReplyHandler>().changeText(player_r2);
             MyReply2.SetActive(true);
             scroller.ScrollDownSlightly();
-            Invoke("BrokerReplyOn2", 3f);
+            Invoke("BrokerReplyOn2", 2f);
 
             
         }
@@ -227,7 +227,7 @@ public class BrokerMailUI : MonoBehaviour
             MyReply1.GetComponent<ReplyHandler>().changeText(player_r1);
             MyReply1.SetActive(true);
             scroller.ScrollDownSlightly();
-            Invoke("BrokerReplyOn2", 3f);
+            Invoke("BrokerReplyOn2", 2f);
 
             
         }
@@ -264,7 +264,7 @@ public class BrokerMailUI : MonoBehaviour
             MyReply1.GetComponent<ReplyHandler>().changeText(player_r1);
             MyReply1.SetActive(true);
             scroller.ScrollDownSlightly();
-            Invoke("BrokerReplyOn2", 3f);
+            Invoke("BrokerReplyOn2", 2f);
         }
 
         else if (mailManager.mode == 12 && (clickedButton == 6))
@@ -276,7 +276,7 @@ public class BrokerMailUI : MonoBehaviour
             MyReply2.GetComponent<ReplyHandler>().changeText(player_r2);
             MyReply2.SetActive(true);
             scroller.ScrollDownSlightly();
-            Invoke("BrokerReplyOn3", 3f);
+            Invoke("BrokerReplyOn3", 2f);
             
             
         }
