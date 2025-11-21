@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
    
@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     public RecoSystem recoSystem;
 
     public List<List<int>> CurationData;
+    [Header("Audio Settings")]
+    public AudioClip missionCompleteSound;
+    private AudioSource audioSource;
+    private bool audioPlayedForMission = false;
 
     public bool missionCompleted = false;
 
@@ -43,6 +47,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        audioSource = GetComponent<AudioSource>();
+
         // 데이터 로더들 연결
         newsDataLoader = GetComponent<NewsDataLoader>();
         comuDataLoader = GetComponent<ComuDataLoader>();
@@ -51,9 +57,9 @@ public class GameManager : MonoBehaviour
         reelsDataLoader = GetComponent<ReelsDataLoader>();
 
         recoSystem = GetComponent<RecoSystem>();
+        audioPlayedForMission = false;
 
         // 데이31 준비
-
         LoadDayData();
 
         CurationData = new List<List<int>>()
@@ -69,6 +75,33 @@ public class GameManager : MonoBehaviour
         ResetCount();
 
     }
+
+    public void SetMissionCompleted(bool state)
+    {
+        // 상태 변경
+        missionCompleted = state;
+        
+        // 오디오 재생 로직
+        if (missionCompleted && !audioPlayedForMission)
+        {
+            if (audioSource != null && missionCompleteSound != null)
+            {
+                audioSource.PlayOneShot(missionCompleteSound);
+                audioPlayedForMission = true; // 재생했음을 표시
+                Debug.Log("Mission Complete Audio Played.");
+            }
+            else
+            {
+                Debug.LogWarning("Mission Complete Audio or AudioSource not set up properly.");
+            }
+        }
+        else if (!missionCompleted)
+        {
+            // 미션이 완료되지 않은 상태로 되돌아가는 경우 (필요 시 주석 해제)
+            // audioPlayedForMission = false; 
+        }
+    }
+    
     public void ToNextDay() 
     {
         if (DayEnded == 3)

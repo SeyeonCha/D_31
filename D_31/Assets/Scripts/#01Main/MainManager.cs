@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(AudioSource))]
 public class MainManager : MonoBehaviour
 {
     [SerializeField]
@@ -12,7 +13,18 @@ public class MainManager : MonoBehaviour
     private GameObject ExitButton;
 
     [SerializeField]
-    private GameObject CreditPanel; 
+    private GameObject CreditPanel;
+
+    private AudioSource audioSource;
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        
+        if (audioSource.clip != null)
+        {
+            audioSource.Play();
+        }
+    }
 
     void Start()
     {

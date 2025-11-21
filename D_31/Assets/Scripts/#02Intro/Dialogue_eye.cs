@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+[RequireComponent(typeof(AudioSource))]
 public class Dialogue_eye : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
@@ -14,6 +15,11 @@ public class Dialogue_eye : MonoBehaviour
     private int index = 0;
     private bool isTyping = false;
     private bool isSentenceComplete = false;
+    private AudioSource audioSource;
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
@@ -31,6 +37,11 @@ public class Dialogue_eye : MonoBehaviour
                 dialogueText.text = sentences[index];
                 isTyping = false;
                 isSentenceComplete = true;
+
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
             }
             else if (isSentenceComplete)
             {
@@ -45,10 +56,20 @@ public class Dialogue_eye : MonoBehaviour
         isSentenceComplete = false;
         dialogueText.text = "";
 
+        if (audioSource.clip != null && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+
         foreach (char letter in sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
+        }
+
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
         }
 
         isTyping = false;

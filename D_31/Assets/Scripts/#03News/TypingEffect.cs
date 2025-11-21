@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using System;
 
 [RequireComponent(typeof(TMP_Text))]
 public class TypingEffect : MonoBehaviour
 {
+    public event Action OnTypingComplete;
     public float typingSpeed = 0.05f;
     public bool IsTyping { get; private set; }
 
@@ -34,6 +36,8 @@ public class TypingEffect : MonoBehaviour
         }
         textMesh.text = sentence;
         IsTyping = false;
+
+        OnTypingComplete?.Invoke();
     }
 
     private IEnumerator ShowText(string sentence)
@@ -45,5 +49,7 @@ public class TypingEffect : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
         IsTyping = false;
+
+        OnTypingComplete?.Invoke();
     }
 }
