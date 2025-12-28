@@ -16,7 +16,11 @@ public class MiniQuestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        QuestText = GetComponent<TextMeshProUGUI>();
+        if (QuestText == null)
+        {
+            QuestText = GetComponent<TextMeshProUGUI>();
+        }
+
         UpdateDayText();
     }
 
@@ -27,6 +31,8 @@ public class MiniQuestManager : MonoBehaviour
 
     public void UpdateDayText()
     {
+        if (QuestText == null) return;
+        
         // 1. GameManager의 DayEnded 값을 가져옵니다.
         int currentDay = GameManager.DayEnded;
 

@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
-using Vimeo.Player;
-using Vimeo;
 
 public class ReelsManager : MonoBehaviour
 {
@@ -18,8 +16,8 @@ public class ReelsManager : MonoBehaviour
     private int clicked;
     private int uniqueId;
 
-    [Header("Vimeo Player & UI")]
-    public VimeoPlayer vimeoPlayer;
+    [Header("Video Player & UI")]
+    public VideoPlayer videoPlayer;
 
     public TextMeshProUGUI title1;
     public TextMeshProUGUI title2;
@@ -34,12 +32,6 @@ public class ReelsManager : MonoBehaviour
 
     private List<ReelsCommentData> comments;
 
-    private void Awake()
-    {
-        // comments = new List<List<TextMeshProUGUI>>() {comment1, comment2, comment3, comment4, comment5};
-        
-    }
-
     public void GetSourceTitle(ReelsTitle stitle)
     {
         ClearComments();
@@ -51,8 +43,8 @@ public class ReelsManager : MonoBehaviour
         clicked = sourceTitle.data.isScrapped;
         uniqueId = sourceTitle.data.uniqueId;
 
-        // 비디오 ID를 데이터 관리자에서 조회하고 로드합니다.
-        StartCoroutine(WaitForVimeoDataAndLoad());
+        // 리소스 폴더에서 영상을 찾아 재생합니다.
+        LoadVideoFromResources();
 
         // 패널 UI 텍스트들 채우기
         if (youtuber == null) {
@@ -82,6 +74,33 @@ public class ReelsManager : MonoBehaviour
         }
     }
 
+    private void LoadVideoFromResources()
+    {
+        if (videoPlayer == null)
+        {
+            Debug.LogError("[ReelsManager] Video Player가 할당되지 않았습니다.");
+            return;
+        }
+
+        string folderName = GetDayFolderName();
+        // 경로 예시: Reels_video/Reels_D-4/1
+        // Resources.Load는 확장자를 적지 않습니다.
+        string resourcePath = $"Reels_video/{folderName}/{uniqueId}";
+
+        VideoClip clip = Resources.Load<VideoClip>(resourcePath);
+
+        if (clip != null)
+        {
+            videoPlayer.clip = clip;
+            videoPlayer.Play();
+            Debug.Log($"[ReelsManager] 영상 재생 시작: {resourcePath}");
+        }
+        else
+        {
+            Debug.LogError($"[ReelsManager] 영상을 찾을 수 없습니다: {resourcePath}");
+        }
+    }
+
     // GameManager.DayEnded 값에 따라 폴더 이름 (프로젝트 이름) 반환
     private string GetDayFolderName()
     {
@@ -94,42 +113,6 @@ public class ReelsManager : MonoBehaviour
             case 3: return "Reels_D-4";
             default: return "Reels_D-31"; 
         }
-    }
-
-    // VimeoDataManager 로드를 기다린 후, 저장된 데이터에서 ID를 찾아 영상 로드
-    private IEnumerator WaitForVimeoDataAndLoad()
-    {
-        // VimeoDataManager 인스턴스가 생성되고 데이터 로드가 완료될 때까지 기다립니다.
-        // VimeoDataManager가 싱글톤 패턴으로 초기화되도록 보장합니다.
-        yield return new WaitUntil(() => VimeoDataManager.Instance != null && VimeoDataManager.Instance.IsDataLoaded);
-
-        string targetTitle = uniqueId.ToString();
-        string targetFolderName = GetDayFolderName();
-
-        // VimeoDataManager에서 영상 제목과 폴더 이름으로 ID를 조회합니다.
-        int videoId = VimeoDataManager.Instance.GetVideoId(targetFolderName, targetTitle);
-
-        if (videoId > 0)
-        {
-            LoadVimeoVideo(videoId);
-        }
-        else
-        {
-            Debug.LogError($"[ReelsManager] ID Not Found: Folder '{targetFolderName}', Title '{targetTitle}'. Cannot load video.");
-        }
-    }
-    
-    // Vimeo ID를 사용하여 영상 로드
-    private void LoadVimeoVideo(int videoId)
-    {
-        if (vimeoPlayer == null)
-        {
-            Debug.LogError("[ReelsManager] Vimeo Player component is not assigned.");
-            return;
-        }
-
-        vimeoPlayer.LoadVideo(videoId);
-        Debug.Log($"[ReelsManager] Load request sent for ID: {videoId}");
     }
 
     private void ClearComments()
