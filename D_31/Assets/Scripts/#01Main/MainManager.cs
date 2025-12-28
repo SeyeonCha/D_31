@@ -28,6 +28,14 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
+        // 1920x1080 해상도로 설정
+        int width = 1920;
+        int height = 1080;
+
+        // FullScreenMode.FullScreenWindow: Mac에서 Retina 해상도를 가장 잘 지원하는 모드입니다.
+        // 빨간 줄 방지를 위해 UnityEngine.FullScreenMode라고 전체 이름을 적어주는 것이 안전합니다.
+        Screen.SetResolution(width, height, UnityEngine.FullScreenMode.FullScreenWindow);
+        
         if (CreditPanel != null) CreditPanel.SetActive(false);
 
     }
