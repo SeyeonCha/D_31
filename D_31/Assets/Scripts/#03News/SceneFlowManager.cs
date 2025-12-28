@@ -61,7 +61,7 @@ public class SceneFlowManager : MonoBehaviour
                 daysRemaining = 14;
                 break;
             case 3:
-                daysRemaining = 4;
+                daysRemaining = 1;
                 break;
             default:
                 daysRemaining = 0; // 예외 처리
