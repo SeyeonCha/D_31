@@ -101,9 +101,14 @@ public class GameManager : MonoBehaviour
             // audioPlayedForMission = false; 
         }
     }
+
+    public List<string> todayScrappedTitles = new List<string>();
     
     public void ToNextDay() 
     {
+        // 다음 날로 넘어가기 전에 오늘 스크랩 리스트 초기화 [추가]
+        todayScrappedTitles.Clear();
+
         if (DayEnded == 3)
         {
             SceneManager.LoadScene("Final");

@@ -69,7 +69,7 @@ public class ComuTitle : MonoBehaviour, IPointerClickHandler
                 
                 // 스크랩 버튼 설정
                 ScrapButtonHandler ScrapButtonHandler = ScrapButton.GetComponent<ScrapButtonHandler>();
-                ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId, data.uniqueId);
+                ScrapButtonHandler.GetSourceTitle(data.isScrapped, data.classId, data.uniqueId, data.title);
 
                 
             }

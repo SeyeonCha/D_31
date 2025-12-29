@@ -29,6 +29,9 @@ public class FinalManager : MonoBehaviour
     // --- 4. 최종 진실 (Truth Panel) ---
     public GameObject TruthPanel;
 
+    [Header("Final Diary Section")]
+    public GameObject DiaryPanel; // 최종 일기장 패널 (Inspector에서 할당)
+
     private int currentPhase = 0; // 0: Headline, 1: News
     private int sentenceIndex = 0;
     private bool isYesSelected = false; // Yes/No 선택 결과 저장
@@ -78,12 +81,6 @@ public class FinalManager : MonoBehaviour
         {
             // 조건 충족: 엔딩 흐름 시작
             isYesSelected = true;
-            
-            // 경고 텍스트 숨기기 (혹시 이전에 표시되었다면)
-            // if (CannotRideSpaceShipText != null)
-            // {
-            //     CannotRideSpaceShipText.text = "";
-            // }
             
             ProceedToHeadlines();
         }
@@ -221,6 +218,37 @@ public class FinalManager : MonoBehaviour
     // TruthManager 스크립트에서 호출될 최종 종료 메서드
     public void GoToCreditScene()
     {
-        SceneManager.LoadScene("Credit"); // 'Credit' 씬 이름으로 변경하세요.
+        OpenFinalDiary();
+    }
+    
+    public void OpenFinalDiary()
+    {
+        // Truth 패널 비활성화
+        if (TruthPanel != null) TruthPanel.SetActive(false);
+
+        // Diary 패널 활성화
+        if (DiaryPanel != null)
+        {
+            DiaryPanel.SetActive(true);
+            currentPhase = 4; // Diary 페이즈
+            Debug.Log("[FinalManager] Diary Panel Activated.");
+        }
+        else
+        {
+            // 만약 DiaryPanel 할당을 깜빡했다면 바로 크레딧으로 보냄 (방어코드)
+            SceneManager.LoadScene("Credit");
+        }
+    }
+
+        // --- 추가: Diary 패널 내의 'End' 버튼에 연결할 최종 종료 메서드 ---
+    public void OnFinalEndButtonClicked()
+    {
+        Debug.Log("[FinalManager] Moving to Credit Scene.");
+        SceneManager.LoadScene("Credit"); 
+    }
+
+    public bool IsYesSelected()
+    {
+        return isYesSelected;
     }
 }
